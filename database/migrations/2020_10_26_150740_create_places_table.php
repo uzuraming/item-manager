@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRoomsTable extends Migration
+class CreatePlacesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,14 @@ class CreateRoomsTable extends Migration
      */
     public function up()
     {
-        Schema::create('rooms', function (Blueprint $table) {
+        Schema::create('places', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('room_name'); // room_name カラム追加
+            $table->string('place_name'); // place_name カラム追加
+            $table->unsignedBigInteger('room_id'); // 部屋のid
             $table->timestamps();
+            
+            // 外部キー制約 部屋のIdと場所を紐づけ
+            $table->foreign('room_id')->references('id')->on('rooms');
         });
     }
 
@@ -27,6 +31,6 @@ class CreateRoomsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rooms');
+        Schema::dropIfExists('places');
     }
 }

@@ -31,3 +31,13 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('users', 'UsersController', ['only' => ['index', 'show']]);
 });
+
+// rooms のルーティング
+Route::resource('rooms', 'RoomsController');
+
+// placeのルーティング
+
+Route::get('rooms/{id}/{place_id}', 'PlacesController@show')->name('places.show');
+Route::post('rooms/{place_id}', 'PlacesController@store')->name('places.store');
+Route::put('rooms/{id}/{place_id}', 'PlacesController@update')->name('places.update');
+Route::delete('rooms/{id}/{place_id}', 'PlacesController@destroy')->name('places.destroy');
