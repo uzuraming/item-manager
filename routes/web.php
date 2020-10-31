@@ -49,6 +49,14 @@ Route::get('rooms/{id}/{place_id}/edit', 'PlacesController@edit')->name('places.
 Route::put('rooms/{id}/{place_id}', 'PlacesController@update')->name('places.update');
 Route::get('rooms/{id}/{place_id}', 'PlacesController@show')->name('places.show');
 
+// place_detailのルーティング
+// Route::delete('rooms/{id}/{place_id}/{place_detail_id}', 'PlaceDetailsController@destroy')->name('place_details.destroy');
+// Route::get('rooms/{id}/create', 'PlaceDetailsController@create')->name('place_details.create');
+// Route::post('rooms/{id}/store', 'PlaceDetailsController@store')->name('place_details.store');
+// Route::get('rooms/{id}/{place_id}/edit', 'PlaceDetailsController@edit')->name('place_details.edit');
+// Route::put('rooms/{id}/{place_id}', 'PlaceDetailsController@update')->name('place_details.update');
+Route::get('rooms/{id}/{place_id}/{place_detail_id}', 'PlaceDetailsController@show')->name('place_details.show');
+
 
 
 

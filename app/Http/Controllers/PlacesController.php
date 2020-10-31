@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Room;
 use App\Place;
+use App\PlaceDetail;
 
 class PlacesController extends Controller
 {
@@ -16,12 +17,16 @@ class PlacesController extends Controller
         // idの値で部屋を検索して取得
         $place = Place::findOrFail($place_id);
         
+        // 全場所詳細を取得
+        $place_details = PlaceDetail::all();
+        
         
 
         // 部屋詳細ビューでそれを表示
         return view('places.show', [
             'room' => $room,
             'place' => $place,
+            'place_details' => $place_details
         ]);
     }
 

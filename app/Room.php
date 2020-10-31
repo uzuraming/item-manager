@@ -11,4 +11,10 @@ class Room extends Model
     {
         return $this->hasMany(Place::class);
     }
+    
+    // 場所詳細のモデルと関連付け
+    public function place_details_from_room()
+    {
+        return $this->hasMany(PlaceDetail::class);
+    }
 }

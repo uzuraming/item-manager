@@ -13,4 +13,9 @@ class Place extends Model
     {
         return $this->belongsTo(Room::class);
     }
+    // 場所詳細のモデルと関連付け
+    public function place_details_from_place()
+    {
+        return $this->hasMany(PlaceDetail::class);
+    }
 }
