@@ -4,16 +4,7 @@
 
     <h1>{{ $room->room_name }} >> {{ $place->place_name }}</h1>
 
-    <table class="table table-bordered">
-        <tr>
-            <th>id</th>
-            <td>{{ $place->id }}</td>
-        </tr>
-        <tr>
-            <th>場所</th>
-            <td>{{ $place->place_name }}</td>
-        </tr>
-    </table>
+
     
     @if (count($place_details) > 0)
         <h2>場所詳細一覧</h2>
@@ -35,6 +26,8 @@
             </tbody>
         </table>
     @endif
+    
+    {!! link_to_route('place_details.create', '場所詳細の新規作成', ['id' => $room->id, 'place_id' => $place->id ], ['class' => 'btn btn-success']) !!}
     
     {!! link_to_route('places.edit', 'この場所の編集', ['id' => $room->id, 'place_id' => $place->id], ['class' => 'btn btn-success']) !!}
     

@@ -4,16 +4,7 @@
 
     <h1>{{ $room->room_name }} の場所一覧</h1>
 
-    <table class="table table-bordered">
-        <tr>
-            <th>id</th>
-            <td>{{ $room->id }}</td>
-        </tr>
-        <tr>
-            <th>部屋</th>
-            <td>{{ $room->room_name }}</td>
-        </tr>
-    </table>
+
     
     @if (count($places) > 0)
         <table class="table table-striped">

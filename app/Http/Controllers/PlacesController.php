@@ -54,7 +54,7 @@ class PlacesController extends Controller
     public function edit($id, $place_id)
     {
         $room = Room::findOrFail($id);
-        $place = Place::findOrFail($id);
+        $place = Place::findOrFail($place_id);
 
         return view('places.edit', [
             'room' => $room,

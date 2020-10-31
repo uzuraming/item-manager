@@ -6,7 +6,7 @@
 
     <div class="row">
         <div class="col-6">
-            {!! Form::model([$room, $place], ['route' => ['places.update', ['id' => $room->id, 'place_id' => $place->room_id]], 'method' => 'put']) !!}
+            {!! Form::model([$room, $place], ['route' => ['places.update', ['id' => $room->id, 'place_id' => $place->id]], 'method' => 'put']) !!}
 
                 <div class="form-group">
                     {!! Form::label('place_name', '場所の名前:') !!}
