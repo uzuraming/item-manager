@@ -11,9 +11,12 @@
 |
 */
 
+
+
 Route::get('/', function () {
     return view('welcome');
 });
+
 
 
 // ユーザー登録
@@ -27,17 +30,28 @@ Route::post('login', 'Auth\LoginController@login')->name('login.post');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 
 
+
 // ユーザー一覧のルーティング ログインしているときのみ
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('users', 'UsersController', ['only' => ['index', 'show']]);
 });
 
+
+
 // rooms のルーティング
 Route::resource('rooms', 'RoomsController');
 
 // placeのルーティング
-
-Route::get('rooms/{id}/{place_id}', 'PlacesController@show')->name('places.show');
-Route::post('rooms/{place_id}', 'PlacesController@store')->name('places.store');
-Route::put('rooms/{id}/{place_id}', 'PlacesController@update')->name('places.update');
 Route::delete('rooms/{id}/{place_id}', 'PlacesController@destroy')->name('places.destroy');
+Route::get('rooms/{id}/create', 'PlacesController@create')->name('places.create');
+Route::post('rooms/{id}/store', 'PlacesController@store')->name('places.store');
+Route::get('rooms/{id}/{place_id}/edit', 'PlacesController@edit')->name('places.edit');
+Route::put('rooms/{id}/{place_id}', 'PlacesController@update')->name('places.update');
+Route::get('rooms/{id}/{place_id}', 'PlacesController@show')->name('places.show');
+
+
+
+
+// create: 新規作成用のフォームページ
+
+// edit: 更新用のフォームページ

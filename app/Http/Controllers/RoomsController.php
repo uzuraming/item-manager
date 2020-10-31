@@ -39,6 +39,8 @@ class RoomsController extends Controller
         return view('rooms.create', [
             'room' => $room,
         ]);
+        
+        return redirect('/rooms');
     }
 
     /**

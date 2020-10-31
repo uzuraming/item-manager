@@ -8,7 +8,6 @@ class Place extends Model
 {
     protected $fillable = ['place_name'];
 
-    
     // roomとの関係を書く
     public function room()
     {

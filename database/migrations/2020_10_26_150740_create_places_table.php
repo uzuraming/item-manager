@@ -20,7 +20,7 @@ class CreatePlacesTable extends Migration
             $table->timestamps();
             
             // 外部キー制約 部屋のIdと場所を紐づけ
-            $table->foreign('room_id')->references('id')->on('rooms');
+            $table->foreign('room_id')->references('id')->on('rooms')->onDelete('cascade');;
         });
     }
 

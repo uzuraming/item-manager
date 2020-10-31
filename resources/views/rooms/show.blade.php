@@ -35,6 +35,8 @@
         </table>
     @endif
     
+    {!! link_to_route('places.create', '部屋の新規作成', ['id' => $room->id], ['class' => 'btn btn-success']) !!}
+    
     {{-- 部屋編集ページへのリンク --}}
     {!! link_to_route('rooms.edit', 'この部屋を編集', ['room' => $room->id], ['class' => 'btn btn-light']) !!}
     
