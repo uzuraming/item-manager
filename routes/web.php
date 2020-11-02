@@ -12,11 +12,8 @@
 */
 
         
-
-Route::get('/', function () {
-    return view('welcome');
-    
-});
+// welcomeページ
+Route::get('/', 'WelcomeController@index')->name('welcome.index');
 
 
 
