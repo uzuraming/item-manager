@@ -8,6 +8,10 @@ use App\Room; // 追加
 
 use App\Place; // 追加
 
+use Auth; // ログインユーザー
+
+use App\User; // ユーザー
+
 class RoomsController extends Controller
 {
     /**
@@ -33,14 +37,19 @@ class RoomsController extends Controller
      */
     public function create()
     {
-        $room = new Room;
+        if(Auth::user()->admin === 0){
+            $room = new Room;
 
-        // 部屋作成ビューを表示
-        return view('rooms.create', [
-            'room' => $room,
-        ]);
+            // 部屋作成ビューを表示
+            return view('rooms.create', [
+                'room' => $room,
+            ]);
+            
+        }else{
+            return redirect('/rooms');
+        }
         
-        return redirect('/rooms');
+        
     }
 
     /**
@@ -51,10 +60,13 @@ class RoomsController extends Controller
      */
     public function store(Request $request)
     {
-        // 部屋を作成
-        $room = new Room;
-        $room->room_name = $request->room_name;
-        $room->save();
+        if(Auth::user()->admin === 0){
+            // 部屋を作成
+            $room = new Room;
+            $room->room_name = $request->room_name;
+            $room->save();
+        }
+        
         
         return redirect('/rooms');
     }
@@ -87,13 +99,21 @@ class RoomsController extends Controller
      */
     public function edit($id)
     {
-        // idの値で部屋を検索して取得
-        $room = Room::findOrFail($id);
-
-        // 部屋編集ビューでそれを表示
-        return view('rooms.edit', [
-            'room' => $room,
-        ]);
+        if(Auth::user()->admin === 0){
+            // idの値で部屋を検索して取得
+            $room = Room::findOrFail($id);
+    
+            // 部屋編集ビューでそれを表示
+            return view('rooms.edit', [
+                'room' => $room,
+            ]);
+                
+        }else{
+           return redirect('/rooms'); 
+        }
+        
+        
+        
     }
 
     /**
@@ -105,11 +125,16 @@ class RoomsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // idの値で部屋を検索して取得
-        $room = Room::findOrFail($id);
-        // メッセージを更新
-        $room->room_name = $request->room_name;
-        $room->save();
+        
+        if(Auth::user()->admin === 0){
+            // idの値で部屋を検索して取得
+            $room = Room::findOrFail($id);
+            // メッセージを更新
+            $room->room_name = $request->room_name;
+            $room->save();
+            
+        }
+        
 
         // トップページへリダイレクトさせる
         return redirect('/rooms');
@@ -123,10 +148,13 @@ class RoomsController extends Controller
      */
     public function destroy($id)
     {
-        // idの値で部屋を検索して取得
-        $room = Room::findOrFail($id);
-        // 部屋を削除
-        $room->delete();
+        if(Auth::user()->admin === 0){
+            // idの値で部屋を検索して取得
+            $room = Room::findOrFail($id);
+            // 部屋を削除
+            $room->delete();
+        }
+        
 
         // 部屋一覧へリダイレクトさせる
         return redirect('/rooms');

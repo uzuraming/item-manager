@@ -19,4 +19,10 @@ class PlaceDetail extends Model
     {
         return $this->belongsTo(Place::class);
     }
+    
+    // 物品のモデルと関連付け
+    public function item_from_place_detail()
+    {
+        return $this->hasMany(Item::class);
+    }
 }

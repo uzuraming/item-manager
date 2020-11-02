@@ -18,4 +18,10 @@ class Place extends Model
     {
         return $this->hasMany(PlaceDetail::class);
     }
+    
+    // 物品のモデルと関連付け
+    public function item_from_place()
+    {
+        return $this->hasMany(Item::class);
+    }
 }

@@ -11,10 +11,11 @@
 |
 */
 
-
+        
 
 Route::get('/', function () {
     return view('welcome');
+    
 });
 
 
@@ -48,14 +49,27 @@ Route::group(['middleware' => ['auth']], function () {
     
     // place_detailのルーティング
     Route::delete('rooms/{id}/{place_id}/{place_detail_id}', 'PlaceDetailsController@destroy')->name('place_details.destroy');
-    
     Route::get('rooms/{id}/{place_id}/create', 'PlaceDetailsController@create')->name('place_details.create');
     Route::post('rooms/{id}/{place_id}', 'PlaceDetailsController@store')->name('place_details.store');
-    
     Route::get('rooms/{id}/{place_id}/{place_detail_id}/edit', 'PlaceDetailsController@edit')->name('place_details.edit');
     Route::put('rooms/{id}/{place_id}/{place_detail_id}', 'PlaceDetailsController@update')->name('place_details.update');
-    
     Route::get('rooms/{id}/{place_id}/{place_detail_id}', 'PlaceDetailsController@show')->name('place_details.show');
+    
+
+    Route::get('rooms/{id}/{place_id}/{place_detail_id}/create', 'ItemController@create')->name('items.create');
+    Route::delete('rooms/{id}/{place_id}/{place_detail_id}/{item_id}', 'ItemController@destroy')->name('items.destroy');
+    Route::post('rooms/{id}/{place_id}/{place_detail_id}', 'ItemController@store')->name('items.store');
+    Route::get('rooms/{id}/{place_id}/{place_detail_id}/{item_id}/edit', 'ItemController@edit')->name('items.edit');
+    Route::put('rooms/{id}/{place_id}/{place_detail_id}/{item_id}', 'ItemController@update')->name('items.update');
+    Route::get('rooms/{id}/{place_id}/{place_detail_id}/{item_id}', 'ItemController@show')->name('items.show');
+    
+    // 使用する画面
+    Route::get('rooms/{id}/{place_id}/{place_detail_id}/{item_id}/spending', 'ItemController@spending')->name('items.spending');
+    Route::put('rooms/{id}/{place_id}/{place_detail_id}/{item_id}/spending_update', 'ItemController@spending_update')->name('items.spending_update');
+    
+    // 警告画面
+    Route::get('alert', 'AlertController@index')->name('alerts.index');
+    
 });
 
 

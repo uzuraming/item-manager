@@ -27,13 +27,19 @@
         </table>
     @endif
     
-    {!! link_to_route('place_details.create', '場所詳細の新規作成', ['id' => $room->id, 'place_id' => $place->id ], ['class' => 'btn btn-success']) !!}
+    {{-- ページネーションのリンク --}}
+    {{ $place_details->links() }}
     
-    {!! link_to_route('places.edit', 'この場所の編集', ['id' => $room->id, 'place_id' => $place->id], ['class' => 'btn btn-success']) !!}
+    @if(Auth::user()->admin === 0)
+        {!! link_to_route('place_details.create', '場所詳細の新規作成', ['id' => $room->id, 'place_id' => $place->id ], ['class' => 'btn btn-success']) !!}
     
-    {{-- 場所削除フォーム --}}
-    {!! Form::model([$room, $place], ['route' => ['places.destroy', ['id' => $room->id, 'place_id' => $place->id]], 'method' => 'delete']) !!}
-        {!! Form::submit('削除', ['class' => 'btn btn-danger']) !!}
-    {!! Form::close() !!}
+        {!! link_to_route('places.edit', 'この場所の編集', ['id' => $room->id, 'place_id' => $place->id], ['class' => 'btn btn-success']) !!}
+        
+        {{-- 場所削除フォーム --}}
+        {!! Form::model([$room, $place], ['route' => ['places.destroy', ['id' => $room->id, 'place_id' => $place->id]], 'method' => 'delete']) !!}
+            {!! Form::submit('削除', ['class' => 'btn btn-danger']) !!}
+        {!! Form::close() !!}
+    @endif
+    
 
 @endsection

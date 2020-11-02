@@ -17,4 +17,10 @@ class Room extends Model
     {
         return $this->hasMany(PlaceDetail::class);
     }
+    
+    // 物品のモデルと関連付け
+    public function item_from_room()
+    {
+        return $this->hasMany(Item::class);
+    }
 }

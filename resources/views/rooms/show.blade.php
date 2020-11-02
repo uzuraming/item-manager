@@ -26,15 +26,20 @@
         </table>
     @endif
     
-    {!! link_to_route('places.create', '部屋の新規作成', ['id' => $room->id], ['class' => 'btn btn-success']) !!}
+    {{ $places->links() }}
     
-    {{-- 部屋編集ページへのリンク --}}
-    {!! link_to_route('rooms.edit', 'この部屋を編集', ['room' => $room->id], ['class' => 'btn btn-light']) !!}
+    @if(Auth::user()->admin === 0)
+        {!! link_to_route('places.create', '部屋の新規作成', ['id' => $room->id], ['class' => 'btn btn-success']) !!}
     
-    {{-- 部屋削除フォーム --}}
-    {!! Form::model($room, ['route' => ['rooms.destroy', $room->id], 'method' => 'delete']) !!}
-        {!! Form::submit('削除', ['class' => 'btn btn-danger']) !!}
-    {!! Form::close() !!}
+        {{-- 部屋編集ページへのリンク --}}
+        {!! link_to_route('rooms.edit', 'この部屋を編集', ['room' => $room->id], ['class' => 'btn btn-light']) !!}
+        
+        {{-- 部屋削除フォーム --}}
+        {!! Form::model($room, ['route' => ['rooms.destroy', $room->id], 'method' => 'delete']) !!}
+            {!! Form::submit('削除', ['class' => 'btn btn-danger']) !!}
+        {!! Form::close() !!}
+    @endif
+    
 
 
 @endsection

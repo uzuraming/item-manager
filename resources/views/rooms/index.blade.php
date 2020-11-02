@@ -23,5 +23,8 @@
             </tbody>
         </table>
     @endif
-    {!! link_to_route('rooms.create', '部屋の新規作成', [], ['class' => 'btn btn-success']) !!}
+    
+    @if(Auth::user()->admin === 0)
+        {!! link_to_route('rooms.create', '部屋の新規作成', [], ['class' => 'btn btn-success']) !!}
+    @endif
 @endsection
