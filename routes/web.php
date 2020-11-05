@@ -12,15 +12,11 @@
 */
 
         
-// welcomeページ
-Route::get('/', 'WelcomeController@index')->name('welcome.index');
 
 
 
-// ユーザー登録
 
-Route::get('signup', 'Auth\RegisterController@showRegistrationForm')->name('signup.get'); // ユーザー登録フォーム
-Route::post('signup', 'Auth\RegisterController@register')->name('signup.post'); // ユーザー登録処理のルーティング
+
 
 // 認証
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -31,7 +27,16 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 
 // ユーザー一覧のルーティング ログインしているときのみ
 Route::group(['middleware' => ['auth']], function () {
-    Route::resource('users', 'UsersController', ['only' => ['index', 'show']]);
+    
+    
+    // ユーザー登録
+
+    Route::get('signup', 'Auth\RegisterController@showRegistrationForm')->name('signup.get'); // ユーザー登録フォーム
+    Route::post('signup', 'Auth\RegisterController@register')->name('signup.post'); // ユーザー登録処理のルーティング
+    // welcomeページ
+    Route::get('/', 'WelcomeController@index')->name('welcome.index');
+    
+    Route::resource('users', 'UsersController', ['only' => ['index', 'show', 'destroy']]);
     
     // rooms のルーティング
     Route::resource('rooms', 'RoomsController');
@@ -66,6 +71,14 @@ Route::group(['middleware' => ['auth']], function () {
     
     // 警告画面
     Route::get('alert', 'AlertController@index')->name('alerts.index');
+    
+    // 物品追加リクエスト画面
+    Route::get('item_request', 'ItemRequestController@index')->name('item_requests.index');
+    Route::put('item_request/{item_id}', 'ItemRequestController@permission')->name('item_requests.permission'); // 承認するボタン
+    Route::get('item_request/{item_id}', 'ItemRequestController@show')->name('item_requests.show');
+    
+    
+    
     
 });
 

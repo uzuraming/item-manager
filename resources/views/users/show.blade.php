@@ -21,4 +21,14 @@
             </ul>
         </div>
     </div>
+    
+    @if(Auth::user()->admin === 0)
+        {{-- 削除ボタンの実装 --}}
+        
+    
+        {!! Form::model([$user], ['route' => ['users.destroy', ['user' => $user->id]], 'method' => 'delete']) !!}
+            {!! Fo rm::submit('削除', ['class' => 'btn btn-danger']) !!}
+        {!! Form::close() !!}
+    
+    @endif
 @endsection

@@ -40,7 +40,8 @@ class ItemController extends Controller
         // // idの値で場所を検索して取得
         // $place = Place::findOrFail($place_id);
         
-        $user = User::findOrFail($item->user_id);
+        $user = User::find($item->user_id);
+        
         
         // 部屋詳細ビューでそれを表示
         return view('items.show', [
@@ -55,7 +56,7 @@ class ItemController extends Controller
     public function create($id, $place_id, $place_detail_id)
     {   
         
-        if(Auth::user()->admin === 0){
+
             // $room = Room::findOrFail($id);
             // $place = Place::findOrFail($place_id);
             $place_detail = PlaceDetail::findOrFail($place_detail_id);
@@ -70,46 +71,43 @@ class ItemController extends Controller
                 'place_detail' => $place_detail,
                 'item' => $item,
             ]);
-        }else{
-           return redirect('/rooms/'.$id.'/'.$place_id.'/'.$place_detail_id); 
-        }
-        
+
         
     }
     
     public function store(Request $request, $id, $place_id, $place_detail_id)
     {
-        if(Auth::user()->admin === 0){
-            // $room = Room::findOrFail($id);
-            // $place = Place::findOrFail($place_id);
-            $place_detail = PlaceDetail::findOrFail($place_detail_id);
-            $room = $place_detail->room()->findOrFail($id);
-            $place = $place_detail->place()->findOrFail($place_id);
-            
-            $item = new item;
-            
-            $item->room_id = $room->id;
-            $item->place_id = $place->id;
-            $item->place_detail_id = $place_detail->id;
-            $item->item_name = $request->item_name;
-            $item->remaining_amount = $request->remaining_amount; // 残量
-            $item->alert_amount = $request->alert_amount; // 警告する残量
-            // 作成したユーザーidを登録
-            $item->user_id = Auth::user()->id;
-            
-            
-            // 管理ユーザーかどうかで、statusを振り分ける
-            // 0が未承認、1が承認、2が拒否、3は発注済み
-            if(Auth::user()->admin == 0){
-                // 管理ユーザーの場合
-                $item->status = 1;
-            }else{
-                // 一般ユーザーの場合
-                $item->status = 0;
-            }
-            
-            $item->save();
+
+        // $room = Room::findOrFail($id);
+        // $place = Place::findOrFail($place_id);
+        $place_detail = PlaceDetail::findOrFail($place_detail_id);
+        $room = $place_detail->room()->findOrFail($id);
+        $place = $place_detail->place()->findOrFail($place_id);
+        
+        $item = new item;
+        
+        $item->room_id = $room->id;
+        $item->place_id = $place->id;
+        $item->place_detail_id = $place_detail->id;
+        $item->item_name = $request->item_name;
+        $item->remaining_amount = $request->remaining_amount; // 残量
+        $item->alert_amount = $request->alert_amount; // 警告する残量
+        // 作成したユーザーidを登録
+        $item->user_id = Auth::user()->id;
+        
+        
+        // 管理ユーザーかどうかで、statusを振り分ける
+        // 0が未承認、1が承認、2が拒否、3は発注済み
+        if(Auth::user()->admin == 0){
+            // 管理ユーザーの場合
+            $item->status = 1;
+        }else{
+            // 一般ユーザーの場合
+            $item->status = 0;
         }
+        
+        $item->save();
+
         
         
         

@@ -22,7 +22,13 @@
                     <td>{{ $item->item_name }}</td>
                     <td>{{ $item->remaining_amount }}</td>
                     <td>{{ $item->alert_amount }}</td>
-                    <td>{{ $user->name }}</td>
+                    <td>
+                        @if($item->user_id)
+                            {{ $user->name }}
+                        @else
+                            削除されたユーザー
+                        @endif
+                    </td>
 
                 </tr>
             </tbody>

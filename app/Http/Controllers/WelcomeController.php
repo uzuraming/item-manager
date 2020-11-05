@@ -12,10 +12,15 @@ class WelcomeController extends Controller
         // remaining_amountがalert_amount以下の物品一覧を取得
         $items = Item::whereColumn('alert_amount', '>', 'remaining_amount')->get();
         $alert_number = count($items);
+        
+        // 未承認の物品を取得
+        $not_permission_items = item::where('status', 0)->get();
+        $not_permission_items_number = count($not_permission_items);
+        
 
-        // 部屋一覧ビューでそれを表示
         return view('welcome', [
-            'alert_number' => $alert_number
+            'alert_number' => $alert_number,
+            'not_permission_items_number' => $not_permission_items_number,
         ]);
     }
 }
