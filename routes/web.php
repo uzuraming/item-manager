@@ -77,7 +77,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('item_request/{item_id}', 'ItemRequestController@permission')->name('item_requests.permission'); // 承認するボタン
     Route::get('item_request/{item_id}', 'ItemRequestController@show')->name('item_requests.show');
     
-    
+    // 物品検索画面
+    Route::get('/serch', function () {
+        return view('serch.serch');
+    });
+    Route::get('serch.results', 'SerchController@results')->name('serch.results');
+
     
     
 });
