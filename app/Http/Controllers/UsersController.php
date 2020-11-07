@@ -8,6 +8,8 @@ use App\User; // Userを名前空間として利用
 
 use Auth; // ログインユーザー
 
+use App\Item;
+
 
 class UsersController extends Controller
 {
@@ -27,10 +29,27 @@ class UsersController extends Controller
     {
         // idの値でユーザを検索して取得
         $user = User::findOrFail($id);
+        
+        $items = Item::all();
+        // // idの値で場所詳細を検索して取得
+        // $place_detail = $item->place_detail()->findOrFail($place_detail_id);
+
+        // $room = $place_detail->room()->findOrFail($id);
+        
+        // $place = $place_detail->place()->findOrFail($place_id);
+
+        // $users = User::all();
+        
+        // 使用履歴を中間テーブルから取得
+        $histories = $user->item_history()->orderBy('created_at', 'desc')->paginate(5);
+        
+        // 物品使用履歴データ
 
         // ユーザ詳細ビューでそれを表示
         return view('users.show', [
             'user' => $user,
+            'histories' => $histories,
+            'items' => $items
         ]);
     }
     

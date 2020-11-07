@@ -1,21 +1,32 @@
-@if (count($users) > 0)
-    <ul class="list-unstyled">
-        @foreach ($users as $user)
-            <li class="media">
-                <div class="media-body">
-                    <div>
-                        {{ $user->name }}
-                    </div>
-                    <div>
-                        {{-- ユーザ詳細ページへのリンク --}}
-                        <p>{!! link_to_route('users.show', 'View profile', ['user' => $user->id]) !!}</p>
-                    </div>
+
+
+    <div class="mt-5 p-3 d-flex justify-content-center">
+        <div class="card rounded-0 shadow-sm border-0" style="width: 36rem;">
+            <div class="card-body border-0">
+                <h2 class="text-center">ユーザー一覧</h2>
+                <div class="mt-5">
+                   @if (count($users) > 0)
+                   @foreach ($users as $user)
+                    <div class="list-group">
+         
+                 
+                                {{-- ユーザ詳細ページへのリンク --}}
+                                {!! link_to_route('users.show', $user->name, ['user' => $user->id], ['class' => 'list-group-item list-group-item-action']) !!}
+                          
+                    @endforeach
+                    <nav class="mt-5 d-flex justify-content-center" aria-label="...">
+                            {{-- ページネーションのリンク --}}
+                            {{-- $rooms->links() --}}
+                          </nav>
+                     @endif
+
+
+    
+                      </div>
                 </div>
-            </li>
-        @endforeach
-    </ul>
-    
-    {{-- ページネーションのリンク --}}
-    {{ $users->links() }}
-    
-@endif
+               
+            </div>
+          </div>
+        
+
+    </div>

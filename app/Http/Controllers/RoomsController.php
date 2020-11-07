@@ -22,7 +22,7 @@ class RoomsController extends Controller
     public function index()
     {
         // 部屋一覧を取得
-        $rooms = Room::all();
+        $rooms = Room::orderBy('created_at', 'desc')->paginate(5);
 
         // 部屋一覧ビューでそれを表示
         return view('rooms.index', [
@@ -37,7 +37,7 @@ class RoomsController extends Controller
      */
     public function create()
     {
-        if(Auth::user()->admin === 0){
+        if(Auth::user()->admin == 0){
             $room = new Room;
 
             // 部屋作成ビューを表示
@@ -60,7 +60,7 @@ class RoomsController extends Controller
      */
     public function store(Request $request)
     {
-        if(Auth::user()->admin === 0){
+        if(Auth::user()->admin == 0){
             // 部屋を作成
             $room = new Room;
             $room->room_name = $request->room_name;

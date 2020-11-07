@@ -28,6 +28,8 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 // ユーザー一覧のルーティング ログインしているときのみ
 Route::group(['middleware' => ['auth']], function () {
     
+        // 使用履歴を表示するページ
+    Route::get('rooms/{id}/{place_id}/{place_detail_id}/{item_id}/history', 'ItemController@user_history')->name('items.user_history');
     
     // ユーザー登録
 
@@ -58,12 +60,18 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('rooms/{id}/{place_id}/{place_detail_id}', 'PlaceDetailsController@show')->name('place_details.show');
     
 
+
+    // itemのルーティング
     Route::get('rooms/{id}/{place_id}/{place_detail_id}/create', 'ItemController@create')->name('items.create');
     Route::delete('rooms/{id}/{place_id}/{place_detail_id}/{item_id}', 'ItemController@destroy')->name('items.destroy');
     Route::post('rooms/{id}/{place_id}/{place_detail_id}', 'ItemController@store')->name('items.store');
     Route::get('rooms/{id}/{place_id}/{place_detail_id}/{item_id}/edit', 'ItemController@edit')->name('items.edit');
     Route::put('rooms/{id}/{place_id}/{place_detail_id}/{item_id}', 'ItemController@update')->name('items.update');
     Route::get('rooms/{id}/{place_id}/{place_detail_id}/{item_id}', 'ItemController@show')->name('items.show');
+    
+    Route::put('rooms/{id}/{place_id}/{place_detail_id}/{item_id}/order_update', 'ItemController@order_update')->name('items.order_update');
+    
+    
     
     // 使用する画面
     Route::get('rooms/{id}/{place_id}/{place_detail_id}/{item_id}/spending', 'ItemController@spending')->name('items.spending');
@@ -80,7 +88,7 @@ Route::group(['middleware' => ['auth']], function () {
     // 物品検索画面
     Route::get('/serch', function () {
         return view('serch.serch');
-    });
+    })->name('serch.serch');
     Route::get('serch.results', 'SerchController@results')->name('serch.results');
 
     

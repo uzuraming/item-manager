@@ -37,7 +37,13 @@ class PlaceDetailsController extends Controller
         // $place = Place::findOrFail($place_id);
         
         
-        $items = $place_detail->item_from_place_detail()->orderBy('created_at', 'desc')->paginate(10);
+        // 管理者ユーザーの場合、未承認も表示する
+        if(Auth::user()->admin == 0){
+            $items = $place_detail->item_from_place_detail()->where('room_id', $id)->where('place_id', $place_id)->orderBy('created_at', 'desc')->paginate(10);
+        }else{
+            $items = $place_detail->item_from_place_detail()->where('room_id', $id)->where('place_id', $place_id)->whereNotIn('status', [0, 2])->orderBy('created_at', 'desc')->paginate(10);
+        }
+        
     
         
         

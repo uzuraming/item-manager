@@ -2,20 +2,36 @@
 
 @section('content')
 
-    <h1>{{ $room->room_name }}場所新規作成ページ</h1>
 
-    <div class="row">
-        <div class="col-6">
-            {!! Form::model($room, ['route' => ['places.store', $room->id]]) !!}
+    
+    
+    <div class="mt-5 p-3 d-flex justify-content-center">
+    <div class="card rounded-0 shadow-sm border-0" style="width: 36rem;">
+        <div class="card-body border-0">
+            <h2 class="text-center">{{ $room->room_name }}場所新規作成ページ</h2>
+            <div class="mt-5">
+                <div class="list-group">
 
-                <div class="form-group">
-                    {!! Form::label('place_name', '部屋の名前:') !!}
-                    {!! Form::text('place_name', null, ['class' => 'form-control']) !!}
-                </div>
+            
 
-                {!! Form::submit('投稿', ['class' => 'btn btn-primary']) !!}
+         
+                    {!! Form::model($room, ['route' => ['places.store', $room->id]]) !!}
 
-            {!! Form::close() !!}
+                        <div class="form-group">
+                            {!! Form::label('place_name', '場所の名前:') !!}
+                            {!! Form::text('place_name', null, ['class' => 'form-control', 'placeholder' => '場所名']) !!}
+                            
+                            <div class="d-flex justify-content-end mt-2">
+                                   {!! Form::submit('作成', ['class' => 'rounded-0 btn btn-success mr-2 px-4',]) !!}
+                            </div>
+                        </div>
+                    {!! Form::close() !!}
+            
+                        
+                    </div>  
+                    
+            </div>
+           
         </div>
-    </div>
+      </div>
 @endsection

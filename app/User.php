@@ -42,4 +42,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Item::class);
     }
+    
+    
+    /**
+     * このユーザが使用した物品データ。（Itemモデルとの関係を定義）
+     */
+    public function item_history()
+    {
+        return $this->belongsToMany(User::class, 'item_history', 'user_id', 'item_id')->withTimestamps()->withPivot('amount');;
+    }
 }

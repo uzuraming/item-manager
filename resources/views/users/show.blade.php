@@ -1,35 +1,109 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row">
-        <div>
-            <div class="card-header">
-                <h3 class="card-title">{{ $user->name }}</h3>
-                <h3 class="card-title">{{ $user->email }}</h3>
-                @if($user->admin == 0)
-                    <h3 class="card-title">管理者</h3>
-                @endif
-            </div>
-            <ul class="nav nav-tabs nav-justified mb-3">
-                {{-- ユーザ詳細タブ --}}
-                <li class="nav-item"><a href="#" class="nav-link">物品使用履歴</a></li>
-                {{-- フォロー一覧タブ --}}
-                <li class="nav-item"><a href="#" class="nav-link">物品リクエスト履歴</a></li>
-                @if($user->admin == 0)
-                    <li class="nav-item"><a href="#" class="nav-link">物品リクエスト履歴</a></li>
-                @endif
-            </ul>
-        </div>
-    </div>
+
     
-    @if(Auth::user()->admin === 0)
-        {{-- 削除ボタンの実装 --}}
+    
+    
+    <div class="mt-5 p-3 d-flex justify-content-center">
+        <div class="card rounded-0 shadow-sm border-0" style="width: 72rem;">
+            <div class="card-body border-0">
+                <div class="mt-5 row">
+                    <div class="col-sm-6">
+                        <h3>ユーザー情報</h3>
+                        <table class="table">
+                                <tbody>
+                                  <tr>
+                                    <th scope="row">ユーザー名</th>
+                                    <td>{{ $user->name }}</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">メールアドレス</th>
+                                    <td>{{ $user->email }}</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">備考</th>
+                                    <td>@if($user->admin == 0)
+                                            管理者
+                                        @else
+                                            一般ユーザー
+                                        @endif
+                                    </td>
+                                  </tr>
+                                  
+                                  </tr>
+             
+                                </tbody>
+                              </table>
+                          
+                    @if(Auth::user()->admin === 0)
+                    
+                    <div class="d-flex justify-content-end">
+                        {{-- 削除ボタンの実装 --}}
+                    
+            
+                        {!! Form::model([$user], ['route' => ['users.destroy', ['user' => $user->id]], 'method' => 'delete']) !!}
+                            {!! Form::submit('ユーザー削除', ['class' => 'rounded-0 btn px-sm-4  mr-2 px-2 btn-danger']) !!}
+                        {!! Form::close() !!}
+                        
+                        
+                    </div>
+                    
+                    
+                @endif
+                    </div>
+                    
+                    <div class="col-sm-6">
+                        <h3>物品使用履歴</h3>
+                @if(count($histories)>0)
+                    <table class="table table-striped">
+                    <thead>
+                        <tr>
+        
+                            <th>物品名</th>
+                            <th>物品の増減</th>
+                            <th>日時</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($histories as $history)
+                        <tr>
+                            {{-- 部屋詳細ページへのリンク --}}
+                           
+                           <td>
+                                @if($items->find($history->id))
+                                    {{ $items->find($history->id)->item_name }}
+                                @else
+                                    削除されたユーザー
+                                @endif
+                            </td>
+            
+                            <td>
+                                @if($history->pivot->amount > 0)
+                                    +{{ $history->pivot->amount }}
+                                @else
+                                    {{ $history->pivot->amount }}
+                                @endif
+                                
+                            </td>
+                            <td>{{ $history->pivot->updated_at }}</td>
+                         
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                    {{-- ページネーションのリンク --}}
+                    {{ $histories->links() }}
+                @endif
+                </div>
+               
+            </div>
+                
+            </div>
+                
+          </div>
+          
         
 
-        {!! Form::model([$user], ['route' => ['users.destroy', ['user' => $user->id]], 'method' => 'delete']) !!}
-            {!! Form::submit('削除', ['class' => 'btn btn-danger']) !!}
-        {!! Form::close() !!}
-        
-        
-    @endif
+    </div>
 @endsection

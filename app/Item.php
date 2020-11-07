@@ -30,4 +30,12 @@ class Item extends Model
         return $this->belongsTo(User::class);
     }
     
+    /**
+     * この物品が使用したユーザーデータ。（Userモデルとの関係を定義）
+     */
+    public function user_history()
+    {
+        return $this->belongsToMany(User::class, 'item_history', 'item_id', 'user_id')->withTimestamps()->withPivot('amount');
+    }
+    
 }

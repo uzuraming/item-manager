@@ -7,12 +7,14 @@ use App\Item;
 
 use App\User;
 
+use Auth;
+
 
 class ItemRequestController extends Controller
 {
     public function index(){
         // 未承認の物品を取得
-        $not_permission_items = item::where('status', 0)->get();
+        $not_permission_items = item::where('status', 0)->paginate(5);
         $not_permission_items_number = count($not_permission_items);
         
         
@@ -43,18 +45,25 @@ class ItemRequestController extends Controller
     
     public function permission(Request $request, $item_id){
         
-        $not_permission_item = Item::findOrFail($item_id);
+        // 管理者ユーザーでなければリダイレクト
+        if(Auth::user()->admin != 0){
+            return back();
+        }else{
+            $not_permission_item = Item::findOrFail($item_id);
         
-        $not_permission_item->item_name = $not_permission_item->item_name;
-        $not_permission_item->remaining_amount = $not_permission_item->remaining_amount; // 残量
-        $not_permission_item->alert_amount = $not_permission_item->alert_amount; // 警告する残量
-        // 作成したユーザーidを登録
-        $not_permission_item->user_id = $not_permission_item->user_id;
-        // ステータスを変更
-        $not_permission_item->status = $request->status;
-        $not_permission_item->save();
+            $not_permission_item->item_name = $not_permission_item->item_name;
+            $not_permission_item->remaining_amount = $not_permission_item->remaining_amount; // 残量
+            $not_permission_item->alert_amount = $not_permission_item->alert_amount; // 警告する残量
+            // 作成したユーザーidを登録
+            $not_permission_item->user_id = $not_permission_item->user_id;
+            // ステータスを変更
+            $not_permission_item->status = $request->status;
+            $not_permission_item->save();
+            
+            return redirect('/item_request');
+        }
         
-        return redirect('/item_request');
+        
     }
     
     

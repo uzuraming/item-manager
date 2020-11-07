@@ -2,22 +2,37 @@
 
 @section('content')
 
-    <h1>id: {{ $room->id }} の部屋編集ページ</h1>
+    
+    
+    <div class="mt-5 p-3 d-flex justify-content-center">
+    <div class="card rounded-0 shadow-sm border-0" style="width: 36rem;">
+        <div class="card-body border-0">
+            <h2 class="text-center">部屋の編集</h2>
+            <div class="mt-5">
+                <div class="list-group">
 
-    <div class="row">
-        <div class="col-6">
-            {!! Form::model($room, ['route' => ['rooms.update', $room->id], 'method' => 'put']) !!}
+            
 
-                <div class="form-group">
-                    {!! Form::label('room_name', '部屋名:') !!}
-                    {!! Form::text('room_name', null, ['class' => 'form-control']) !!}
-                </div>
+         
+                    {!! Form::model($room, ['route' => ['rooms.update', $room->id], 'method' => 'put']) !!}
 
-                {!! Form::submit('更新', ['class' => 'btn btn-primary']) !!}
-
-            {!! Form::close() !!}
+                        <div class="form-group">
+                            {!! Form::label('room_name', '部屋名:') !!}
+                            {!! Form::text('room_name', null, ['class' => 'form-control',  'placeholder' => '部屋名']) !!}
+                            
+                            <div class="d-flex justify-content-end mt-2">
+                                   {!! Form::submit('作成', ['class' => 'rounded-0 btn btn-success mr-2 px-4', ]) !!}
+                            </div>
+                        </div>
+                    {!! Form::close() !!}
+            
+                        
+                    </div>  
+                    
+            </div>
+           
         </div>
-    </div>
+      </div>
 
 @endsection
 

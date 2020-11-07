@@ -13,7 +13,7 @@ class SerchController extends Controller
     public function results(Request $request){
         
         $word = $request->word;
-        $serch_items = Item::where('item_name', 'like', "%$word%")->get();
+        $serch_items = Item::where('item_name', 'like', "%$word%")->paginate(5);
         
          // 検索結果一覧ビューでそれを表示
         return view('serch.results', [

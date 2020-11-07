@@ -2,44 +2,47 @@
 
 @section('content')
 
-    <h1>{{ $room->room_name }} >> {{ $place->place_name }}</h1>
+    
+    
+    
+    <div class="mt-5 p-3 d-flex justify-content-center">
+        <div class="card rounded-0 shadow-sm border-0" style="width: 36rem;">
+            <div class="card-body border-0">
+                <h2 class="text-center">{{ $room->room_name }}>>{{ $place->place_name }}</h2>
+                <div class="mt-5">
+                    @if (count($place_details) > 0)
+                    <div class="list-group">
+                        @foreach ($place_details as $place_detail)
+                 
+                            {{-- 部屋詳細ページへのリンク --}}
+                            {!! link_to_route('place_details.show', $place_detail->place_detail_name, ['id' => $room->id, 'place_id' => $place->id, 'place_detail_id' => $place_detail->id], ['class' => 'list-group-item list-group-item-action']) !!}
+                            
+                        @endforeach
 
+                          <nav class="mt-5 d-flex justify-content-center" aria-label="...">
+                            {{-- ページネーションのリンク --}}
+                            {{ $place_details->links() }}
+                          </nav>
+                    @endif
 
-    
-    @if (count($place_details) > 0)
-        <h2>場所詳細一覧</h2>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>id</th>
-                    <th>場所詳細</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($place_details as $place_detail)
-                <tr>
-                    {{-- 部屋詳細ページへのリンク --}}
-                    <td>{!! link_to_route('place_details.show', $place_detail->id, ['id' => $room->id, 'place_id' => $place->id, 'place_detail_id' => $place_detail->id]) !!}</td>
-                    <td>{{ $place_detail->place_detail_name }}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    @endif
-    
-    {{-- ページネーションのリンク --}}
-    {{ $place_details->links() }}
-    
-    @if(Auth::user()->admin === 0)
-        {!! link_to_route('place_details.create', '場所詳細の新規作成', ['id' => $room->id, 'place_id' => $place->id ], ['class' => 'btn btn-success']) !!}
-    
-        {!! link_to_route('places.edit', 'この場所の編集', ['id' => $room->id, 'place_id' => $place->id], ['class' => 'btn btn-success']) !!}
+                            @if(Auth::user()->admin === 0)
+                            <div class="d-flex justify-content-end">
+                                {!! link_to_route('places.edit', '編集', ['id' => $room->id, 'place_id' => $place->id], ['class' => 'rounded-0 btn btn-secondary mr-2 px-sm-4 px-2']) !!}
         
-        {{-- 場所削除フォーム --}}
-        {!! Form::model([$room, $place], ['route' => ['places.destroy', ['id' => $room->id, 'place_id' => $place->id]], 'method' => 'delete']) !!}
-            {!! Form::submit('削除', ['class' => 'btn btn-danger']) !!}
-        {!! Form::close() !!}
-    @endif
+                                {{-- 場所削除フォーム --}}
+                                {!! Form::model([$room, $place], ['route' => ['places.destroy', ['id' => $room->id, 'place_id' => $place->id]], 'method' => 'delete']) !!}
+                                    {!! Form::submit('削除', ['class' => 'rounded-0 btn btn-danger mr-2 px-sm-4 px-2']) !!}
+                                {!! Form::close() !!}
+                                {!! link_to_route('place_details.create', '新規作成', ['id' => $room->id, 'place_id' => $place->id ], ['class' => 'rounded-0 btn btn-success mr-2 px-sm-4 px-2']) !!}
+                            </div>
+                            @endif
     
+                      </div>
+                </div>
+               
+            </div>
+          </div>
+        
 
+    </div>
 @endsection

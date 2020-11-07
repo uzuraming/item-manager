@@ -2,20 +2,39 @@
 
 @section('content')
 
-    <h1>物品名検索</h1>
 
-    <div class="row">
-        <div class="col-6">
-        
-            {!! Form::open(['route' => 'serch.results', null,  'method' => 'get']) !!}
-                <div class="form-group">
-                    {!! Form::label('word', '名前:') !!}
-                    {!! Form::text('word', null, ['class' => 'form-control']) !!}
-                </div>
+    
+    
+    
+    
+    
+    <div class="mt-5 p-3 d-flex justify-content-center">
+    <div class="card rounded-0 shadow-sm border-0" style="width: 36rem;">
+        <div class="card-body border-0">
+            <h2 class="text-center">物品の検索</h2>
+            <div class="mt-5">
+                <div class="list-group">
 
-                {!! Form::submit('検索', ['class' => 'btn btn-primary']) !!}
+            
 
-            {!! Form::close() !!}
+         
+                    {!! Form::open(['route' => 'serch.results', null,  'method' => 'get']) !!}
+
+                        <div class="form-group">
+                            {!! Form::label('word', '名前:') !!}
+                            {!! Form::text('word', null, ['class' => 'form-control']) !!}
+                            
+                            <div class="d-flex justify-content-end mt-2">
+                                   {!! Form::submit('検索', ['class' => 'rounded-0 btn btn-success mr-2 px-4', ]) !!}
+                            </div>
+                        </div>
+                    {!! Form::close() !!}
+            
+                        
+                    </div>  
+                    
+            </div>
+           
         </div>
-    </div>
+      </div>
 @endsection

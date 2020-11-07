@@ -17,9 +17,10 @@ class CreateItemHistoryTable extends Migration
             
             $table->bigIncrements('id');
             $table->timestamps();
-            $table->unsignedBigInteger('user_id');; // 使用したユーザーid
-            $table->unsignedBigInteger('item_id');; // 使用した物品id
+            $table->unsignedBigInteger('user_id')->nullable(); // 使用したユーザーid
+            $table->unsignedBigInteger('item_id')->nullable(); // 使用した物品id
             $table->integer('amount'); // 使用した個数
+            
             
             // 外部キー制約
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null'); // usersが削除されたときに、userIdがnull

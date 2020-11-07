@@ -1,5 +1,5 @@
 <header class="mb-4">
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <nav  class="navbar navbar-expand-lg navbar-light" style="background-color: white;">
         {{-- トップページへのリンク --}}
         <a class="navbar-brand" href="/">Item Manager</a>
 
@@ -11,22 +11,66 @@
             <ul class="navbar-nav mr-auto"></ul>
             <ul class="navbar-nav">
                 @if (Auth::check())
-                    {{-- ユーザ一覧ページへのリンク --}}
-                    <li class="nav-item">{!! link_to_route('users.index', 'Users', [], ['class' => 'nav-link']) !!}</li>
+                
+                     <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ユーザー</a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                                {{-- ユーザ詳細ページへのリンク --}}
+                                <li class="dropdown-item"> {!! link_to_route('users.index', 'ユーザー一覧', [],   ['class' => '']) !!}</li>
+                                <li class="dropdown-divider"></li>
+                                @if(Auth::user()->admin == 0)
+                                    {{-- ユーザ登録ページへのリンク --}}
+                                    <li class="dropdown-item">{!! link_to_route('signup.get', 'ユーザー登録', [], ['class' => '']) !!}</li>
+                                @endif
+                                
+                            </ul>
+                        
+                    </li>
+                    
+                    
+                    
+                    
+                    
+        
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">物品を探す</a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                                {{-- ユーザ詳細ページへのリンク --}}
+                                <li class="dropdown-item">{!! link_to_route('rooms.index', '部屋一覧', [],   ['class' => '']) !!}</li>
+                                <li class="dropdown-divider"></li>
+                                <li class="dropdown-item">{!! link_to_route('serch.serch', '検索', [],   ['class' => '']) !!}</li>
+                                <li class="dropdown-divider"></li>
+                                <li class="dropdown-item">
+                                    <a class="" href="{{ route('alerts.index', []) }}"> 残量僅かな物品</span></a>
+                                </li>
+                                <li class="dropdown-divider"></li>
+                                <li class="dropdown-item">
+                                    <a class="" href="{{ route('item_requests.index', []) }}"> 物品追加リクエスト</a>
+                        
+                                </li>
+                            </ul>
+                        
+                    </li>
+                    
+                    
+                    
+                    
+                    
+                    
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->name }}</a>
                         <ul class="dropdown-menu dropdown-menu-right">
                                 {{-- ユーザ詳細ページへのリンク --}}
-                                <li class="dropdown-item">{!! link_to_route('users.show', 'My profile', ['user' => Auth::id()]) !!}</li>
+                                <li class="dropdown-item">{!! link_to_route('users.show', '自分のユーザー情報', ['user' => Auth::id()]) !!}</li>
                                 <li class="dropdown-divider"></li>
-                                {{-- ログアウトへのリンク --}}
-                                <li class="dropdown-item">{!! link_to_route('logout.get', 'Logout') !!}</li>
+                                <li class="dropdown-item">{!! link_to_route('logout.get', 'ログアウト') !!}</li>
+                                
                             </ul>
                         
                     </li>
+                    
                 @else
-                    {{-- ユーザ登録ページへのリンク --}}
-                    <li class="nav-item">{!! link_to_route('signup.get', 'Signup', [], ['class' => 'nav-link']) !!}</li>
+                    
                     {{-- ログインページへのリンク --}}
                     <li class="nav-item">{!! link_to_route('login', 'Login', [], ['class' => 'nav-link']) !!}</li>
                 @endif
