@@ -5,9 +5,33 @@
         <title>Item Manager</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+        <style type="text/css"> 
+            body{
+                font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI", "Helvetica Neue", HelveticaNeue, YuGothic, "Yu Gothic Medium", "Yu Gothic", Verdana, Meiryo, sans-serif;
+                  color: #2c3e50;
+                  font-size:1rem;
+                  background-color: #f5f5f5 ;
+            }
+        </style>
+        
+         @if(Auth::check())
+        @if(Auth::user()->admin == 0)
+        <style type="text/css"> 
+            body{
+                font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI", "Helvetica Neue", HelveticaNeue, YuGothic, "Yu Gothic Medium", "Yu Gothic", Verdana, Meiryo, sans-serif;
+                  color: #2c3e50;
+                  font-size:1rem;
+                  background-color: #424242 ;
+            }
+        </style>
+        @endif
+        @endif
+        
+        
+        
     </head>
 
-    <body style="background-color: #f5f5f5 ;">
+    <body style="">
 
         {{-- ナビゲーションバー --}}
         @include('commons.navbar')

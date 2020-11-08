@@ -72,7 +72,8 @@
                            
                            <td>
                                 @if($items->find($history->id))
-                                    {{ $items->find($history->id)->item_name }}
+                                 
+                                    {!! link_to_route('items.show', $items->find($history->id)->item_name, ['id' => $items->find($history->id)->room_id, 'place_id' => $items->find($history->id)->place_id, 'place_detail_id' => $items->find($history->id)->place_detail_id, 'item_id' => $items->find($history->id)->id]) !!}
                                 @else
                                     削除された物品
                                 @endif

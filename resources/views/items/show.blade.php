@@ -20,7 +20,9 @@
                                   </tr>
                                   <tr>
                                     <th scope="row">場所</th>
-                                    <td>{{ $room->room_name }} >> {{ $place->place_name }} >> {{ $place_detail->place_detail_name }}</td>
+                                    <td>{!! link_to_route('rooms.index', '部屋一覧', [], ['class' => '']) !!}>{!! link_to_route('rooms.show', $room->room_name, ['room' => $room->id], ['class' => '']) !!} >> 
+                            {!! link_to_route('places.show', $place->place_name,  ['id' => $room->id, 'place_id' => $place->id], ['class' => '']) !!}>>
+                            {!! link_to_route('place_details.show', $place_detail->place_detail_name, ['id' => $room->id, 'place_id' => $place->id, 'place_detail_id' => $place_detail->id], ['class' => '']) !!}</td>
                                   </tr>
                                   <tr>
                                     <th scope="row">残量</th>
@@ -34,7 +36,8 @@
                                     <th scope="row">作成者</th>
                                     <td>
                                         @if($item->user_id)
-                                            {{ $user->name }}
+                                
+                                            {!! link_to_route('users.show', $user->name, ['user' => $user->id]) !!}
                                         @else
                                             削除されたユーザー
                                         @endif
@@ -47,10 +50,16 @@
                          
                         </div>  
                         <div class="d-flex justify-content-end">
+                            
+                            @if(Auth::user()->admin === 0)
+                                {!! link_to_route('items.edit', '編集', ['id' => $room->id, 'place_id' => $place->id, 'place_detail_id' => $place_detail->id, 'item_id' => $item->id], ['class' => 'rounded-0 btn btn-secondary mr-2 px-4']) !!}
+                                {{-- 場所削除フォーム --}}
+                            {!! Form::model([$item], ['route' => ['items.destroy', ['id' => $room->id, 'place_id' => $place->id, 'place_detail_id' => $place_detail->id, 'item_id' => $item->id]], 'method' => 'delete']) !!}
+                                {!! Form::submit('削除', ['class' => 'rounded-0 btn btn-danger mr-2 px-4']) !!}
+                            {!! Form::close() !!}
+                            @endif
 
-                            {!! link_to_route('items.spending', '数の変更', ['id' => $room->id, 'place_id' => $place->id, 'place_detail_id' => $place_detail->id, 'item_id' => $item->id], ['class' => 'rounded-0 btn btn-primary mr-2 px-4']) !!}
-                            {!! link_to_route('items.edit', '編集', ['id' => $room->id, 'place_id' => $place->id, 'place_detail_id' => $place_detail->id, 'item_id' => $item->id], ['class' => 'rounded-0 btn btn-secondary mr-2 px-4']) !!}
-
+                            
                             
                             
                         </div>
@@ -71,11 +80,11 @@
                                 
                             @endif
                           
-                            {{-- 場所削除フォーム --}}
-                            {!! Form::model([$item], ['route' => ['items.destroy', ['id' => $room->id, 'place_id' => $place->id, 'place_detail_id' => $place_detail->id, 'item_id' => $item->id]], 'method' => 'delete']) !!}
-                                {!! Form::submit('削除', ['class' => 'rounded-0 btn btn-danger mr-2 px-4']) !!}
-                            {!! Form::close() !!}
                             
+                            {!! link_to_route('items.spending', '数の変更', ['id' => $room->id, 'place_id' => $place->id, 'place_detail_id' => $place_detail->id, 'item_id' => $item->id], ['class' => 'rounded-0 btn btn-primary mr-2 px-4']) !!}
+                            
+                             {!! link_to_route('items.user_history', '使用履歴', ['id' => $room->id, 'place_id' => $place->id, 'place_detail_id' => $place_detail->id, 'item_id' => $item->id], ['class' => 'rounded-0 btn btn-success mr-2 px-4']) !!}
+
                             
                         </div>
 

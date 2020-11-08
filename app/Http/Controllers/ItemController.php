@@ -274,7 +274,7 @@ class ItemController extends Controller
             $item->remaining_amount = $request->remaining_amount; // 残量
             $item->alert_amount = $item->alert_amount; // 警告する残量
             // 作成したユーザーidを登録
-            $item->user_id = Auth::user()->id;
+            $item->user_id = $item->user_id;
             
             
             $item->status = $item->status;
@@ -324,7 +324,7 @@ class ItemController extends Controller
        
           
         
-            return redirect('/rooms/'.$id.'/'.$place_id.'/'.$place_detail_id);
+            return redirect('/rooms/'.$id.'/'.$place_id.'/'.$place_detail_id.'/'.$item_id);
     }
     
     
@@ -384,7 +384,7 @@ class ItemController extends Controller
                 $item->save();
                 
             
-                return redirect('/rooms/'.$id.'/'.$place_id.'/'.$place_detail_id);
+                return back();
             }
             
             

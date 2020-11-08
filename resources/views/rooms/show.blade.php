@@ -8,7 +8,7 @@
     <div class="mt-5 p-3 d-flex justify-content-center">
         <div class="card rounded-0 shadow-sm border-0" style="width: 36rem;">
             <div class="card-body border-0">
-                <h2 class="text-center">{{ $room->room_name }}</h2>
+                <h2 class="text-center h3">{!! link_to_route('rooms.index', '部屋一覧', [], ['class' => '']) !!}>{{ $room->room_name }}</h2>
                
                 <div class="mt-5">
                      @if (count($places) > 0)
