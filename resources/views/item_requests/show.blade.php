@@ -15,6 +15,7 @@
                             <th>残量</th>
                             <th>警告する残量</th>
                             <th>作成者</th>
+                            <th>状態</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -24,7 +25,13 @@
                             <td>{{ $not_permission_item->remaining_amount }}</td>
                             <td>{{ $not_permission_item->alert_amount }}</td>
                             <td>{!! link_to_route('users.show', App\User::find($not_permission_item->user_id)->name, ['user' => App\User::find($not_permission_item->user_id)->id]) !!}</td>
-                                
+                            <th>
+                                @if($not_permission_item->status == 0)
+                                    <p class="text-secondary">未承認</p>
+                                @elseif($not_permission_item->status ==2)
+                                    <p class="text-danger">拒否</p>
+                                @endif
+                            </th>
                         </tr>
                     </tbody>
                 </table>

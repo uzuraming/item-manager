@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+
+use DB;
+
 use Illuminate\Http\Request;
 
 use App\Room; // 追加
@@ -285,12 +288,16 @@ class ItemController extends Controller
             //     // 一般ユーザーの場合
             //     $item->status = 0;
             // }
-            $item->save();
+            
+            
+            
+            // $item->save();
             
             
             // -----------------------------------
             // 以下、履歴テーブルに書き込む処理
             // -----------------------------------
+            
             
             // ログインユーザーを定義
             $user = Auth::user();
@@ -298,8 +305,23 @@ class ItemController extends Controller
             // 物品の増減を計算する
             $amount = $request->remaining_amount - $before_amount;
             
-            // 物品の増減を記録
-            $user->item_history()->attach($item->id, ['amount' => $amount]);
+            // // 物品の増減を記録
+            // $user->item_history()->attach($item->id, ['amount' => $amount]);
+            
+            
+            
+            // トランザクション処理
+            
+            $result = DB::transaction(function() use ($request, $id, $place_id, $place_detail_id, $item_id, $item, $user, $amount) {
+                $item->save();
+                
+                 // // 物品の増減を記録
+                $user->item_history()->attach($item->id, ['amount' => $amount]);
+                
+                
+                return true;
+            });
+       
           
         
             return redirect('/rooms/'.$id.'/'.$place_id.'/'.$place_detail_id);

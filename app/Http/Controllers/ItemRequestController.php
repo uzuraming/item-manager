@@ -14,7 +14,7 @@ class ItemRequestController extends Controller
 {
     public function index(){
         // 未承認の物品を取得
-        $not_permission_items = item::where('status', 0)->paginate(5);
+        $not_permission_items = item::where('status', 0)->orWhere('status', 2)->paginate(5);
         $not_permission_items_number = count($not_permission_items);
         
         
@@ -32,14 +32,17 @@ class ItemRequestController extends Controller
         $user = User::findOrFail($not_permission_item->user_id);
         
         // 承認されているIdを打ち込まれた場合は404を返す
-        if($not_permission_item->status !== 0){
-            return \App::abort(404);
-        }else{
+        if($not_permission_item->status == 0 || $not_permission_item->status == 2){
             // リクエスト一覧ビューでそれを表示
-        return view('item_requests.show', [
-            'not_permission_item' => $not_permission_item,
-            'user' => $user
-        ]);
+            return view('item_requests.show', [
+                'not_permission_item' => $not_permission_item,
+                'user' => $user
+            ]);
+            
+            
+        }else{
+            
+            return \App::abort(404);
         }
     }
     

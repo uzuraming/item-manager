@@ -49,6 +49,6 @@ class User extends Authenticatable
      */
     public function item_history()
     {
-        return $this->belongsToMany(User::class, 'item_history', 'user_id', 'item_id')->withTimestamps()->withPivot('amount');;
+        return $this->belongsToMany(Item::class, 'item_history', 'user_id', 'item_id')->withTimestamps()->withPivot('amount');;
     }
 }

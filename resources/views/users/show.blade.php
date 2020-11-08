@@ -74,7 +74,7 @@
                                 @if($items->find($history->id))
                                     {{ $items->find($history->id)->item_name }}
                                 @else
-                                    削除されたユーザー
+                                    削除された物品
                                 @endif
                             </td>
             
@@ -86,7 +86,7 @@
                                 @endif
                                 
                             </td>
-                            <td>{{ $history->pivot->updated_at }}</td>
+                            <td>{{ $history->pivot->created_at }}</td>
                          
                         </tr>
                         @endforeach
