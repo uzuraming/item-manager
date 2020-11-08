@@ -60,6 +60,12 @@ class PlacesController extends Controller
 
     public function store(Request $request, $id)
     {
+        
+        // バリデーション
+        $request->validate([
+            'place_name' => 'required|max:255',
+        ]);
+        
         if(Auth::user()->admin === 0){
             $room = Room::findOrFail($id);
             $room->places()->create(['place_name' => $request->place_name]);
@@ -88,6 +94,11 @@ class PlacesController extends Controller
 
     public function update(Request $request, $id, $place_id)
     {
+        // バリデーション
+        $request->validate([
+            'place_name' => 'required|max:255',
+        ]);
+        
         if(Auth::user()->admin === 0){
             $place = Place::where('room_id', $id)->findOrFail($place_id);
             $place->place_name = $request->place_name;

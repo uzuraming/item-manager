@@ -84,6 +84,13 @@ class PlaceDetailsController extends Controller
     
     public function store(Request $request, $id, $place_id)
     {
+        
+        // バリデーション
+        $request->validate([
+            'place_detail_name' => 'required|max:255',
+        ]);
+        
+        
         if(Auth::user()->admin === 0){
             $place = Place::findOrFail($place_id);
             // URLのplace_Idから、database上のroomIdを取得。これがURL上のidと一致しているかを確認し、その部屋が存在するかをチェックする
@@ -137,6 +144,12 @@ class PlaceDetailsController extends Controller
     }
     public function update(Request $request, $id, $place_id, $place_detail_id)
     {
+        
+        // バリデーション
+        $request->validate([
+            'place_detail_name' => 'required|max:255',
+        ]);
+        
         if(Auth::user()->admin === 0){
             $place_detail = PlaceDetail::where('room_id', $id)->where('place_id', $place_id)->findOrFail($place_detail_id);
             $place_detail->place_detail_name = $request->place_detail_name;

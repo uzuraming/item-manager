@@ -60,6 +60,11 @@ class RoomsController extends Controller
      */
     public function store(Request $request)
     {
+        // バリデーション
+        $request->validate([
+            'room_name' => 'required|max:255',
+        ]);
+        
         if(Auth::user()->admin == 0){
             // 部屋を作成
             $room = new Room;
@@ -125,6 +130,12 @@ class RoomsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
+        // バリデーション
+        $request->validate([
+            'room_name' => 'required|max:255',
+        ]);
+        
         
         if(Auth::user()->admin === 0){
             // idの値で部屋を検索して取得

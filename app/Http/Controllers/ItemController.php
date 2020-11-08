@@ -85,6 +85,14 @@ class ItemController extends Controller
     
     public function store(Request $request, $id, $place_id, $place_detail_id)
     {
+        
+        
+        // バリデーション
+        $request->validate([
+            'item_name' => 'required|max:255',
+            'remaining_amount' => 'required|integer|min:0',
+            'alert_amount' => 'required|integer|min:0',
+        ]);
 
         // $room = Room::findOrFail($id);
         // $place = Place::findOrFail($place_id);
@@ -124,6 +132,8 @@ class ItemController extends Controller
     
     public function edit($id, $place_id, $place_detail_id, $item_id)
     {
+        
+        
         if(Auth::user()->admin === 0){
             // $room = Room::findOrFail($id);
             // $place = Place::findOrFail($place_id);
@@ -161,6 +171,14 @@ class ItemController extends Controller
     }
     public function update(Request $request, $id, $place_id, $place_detail_id, $item_id)
     {
+        // バリデーション
+        $request->validate([
+            'item_name' => 'required|max:255',
+            'remaining_amount' => 'required|integer|min:0',
+            'alert_amount' => 'required|integer|min:0',
+        ]);
+        
+        
         if(Auth::user()->admin === 0){
             $item = Item::where('room_id', $id)->where('place_id', $place_id)->where('place_detail_id', $place_detail_id)->findOrFail($item_id);
             $item->item_name = $request->item_name;
@@ -197,10 +215,12 @@ class ItemController extends Controller
     }
     
     
-    // 物品消費画面を表示する関数
+    // 物品消費画面を更新する関数
     public function spending($id, $place_id, $place_detail_id, $item_id)
     {
        
+        
+        
         // $room = Room::findOrFail($id);
         // $place = Place::findOrFail($place_id);
         
@@ -238,6 +258,11 @@ class ItemController extends Controller
     public function spending_update(Request $request, $id, $place_id, $place_detail_id, $item_id)
     {
    
+            // バリデーション
+            $request->validate([
+                'remaining_amount' => 'required|integer|min:0',
+            ]);
+            
             $item = Item::where('room_id', $id)->where('place_id', $place_id)->where('place_detail_id', $place_detail_id)->findOrFail($item_id);
             $item->item_name = $item->item_name;
             
