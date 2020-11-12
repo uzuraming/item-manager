@@ -10,7 +10,7 @@ class WelcomeController extends Controller
 {
     public function index(){
         // remaining_amountがalert_amount以下の物品一覧を取得
-        $items = Item::whereNotIn('status', [0, 2])->whereColumn('alert_amount', '>=', 'remaining_amount')->get();
+        $items = Item::whereColumn('alert_amount', '>=', 'remaining_amount')->get();
         $alert_number = count($items);
         
         // 未承認の物品を取得
