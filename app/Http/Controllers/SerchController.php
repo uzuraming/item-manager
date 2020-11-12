@@ -12,7 +12,6 @@ class SerchController extends Controller
     // 検索フォームを入力して受け取るやつ
     public function results(Request $request){
         
-        
         // バリデーション
         $request->validate([
             'word' => 'required|max:255',

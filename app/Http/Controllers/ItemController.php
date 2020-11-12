@@ -4,29 +4,22 @@ namespace App\Http\Controllers;
 
 
 use DB;
-
 use Illuminate\Http\Request;
-
-use App\Room; // 追加
-
-use App\Place; // 追加
-
-use App\PlaceDetail; // 追加
-
-use App\Item; // 追加
-
+use App\Room; // 部屋モデル読み込み
+use App\Place; // 場所モデル読み込み
+use App\PlaceDetail; // 場所詳細モデル読み込み
+use App\Item; // 物品モデル読み込み
 use Auth; // ログインユーザー
-
-use App\User; // ユーザー
+use App\User; // ユーザーモデル読み込み
 
 class ItemController extends Controller
 {
     
     public function show($id, $place_id, $place_detail_id, $item_id)
     {
-        
-        
+        // idの値で部屋を検索して取得
         $item = Item::findOrFail($item_id);
+        
         // idの値で場所詳細を検索して取得
         $place_detail = $item->place_detail()->findOrFail($place_detail_id);
         
@@ -65,31 +58,23 @@ class ItemController extends Controller
     }
     
     public function create($id, $place_id, $place_detail_id)
-    {   
-        
+    {  
+        $place_detail = PlaceDetail::findOrFail($place_detail_id);
+        $room = $place_detail->room()->findOrFail($id);
+        $place = $place_detail->place()->findOrFail($place_id);
+        $item = new item;
 
-            // $room = Room::findOrFail($id);
-            // $place = Place::findOrFail($place_id);
-            $place_detail = PlaceDetail::findOrFail($place_detail_id);
-            $room = $place_detail->room()->findOrFail($id);
-            $place = $place_detail->place()->findOrFail($place_id);
-            $item = new item;
-    
-            // 場所作成ビューを表示
-            return view('items.create', [
-                'room' => $room,
-                'place' => $place,
-                'place_detail' => $place_detail,
-                'item' => $item,
-            ]);
-
-        
+        // 場所作成ビューを表示
+        return view('items.create', [
+            'room' => $room,
+            'place' => $place,
+            'place_detail' => $place_detail,
+            'item' => $item,
+        ]);
     }
     
     public function store(Request $request, $id, $place_id, $place_detail_id)
     {
-        
-        
         // バリデーション
         $request->validate([
             'item_name' => 'required|max:255',
@@ -97,8 +82,6 @@ class ItemController extends Controller
             'alert_amount' => 'required|integer|min:0',
         ]);
 
-        // $room = Room::findOrFail($id);
-        // $place = Place::findOrFail($place_id);
         $place_detail = PlaceDetail::findOrFail($place_detail_id);
         $room = $place_detail->room()->findOrFail($id);
         $place = $place_detail->place()->findOrFail($place_id);
@@ -127,9 +110,6 @@ class ItemController extends Controller
         
         $item->save();
 
-        
-        
-        
         return redirect('/rooms/'.$id.'/'.$place_id.'/'.$place_detail_id);
     }
     
@@ -138,23 +118,12 @@ class ItemController extends Controller
         
         
         if(Auth::user()->admin === 0){
-            // $room = Room::findOrFail($id);
-            // $place = Place::findOrFail($place_id);
-            
-            // $place_detail = PlaceDetail::findOrFail($place_detail_id);
-            
-            
+   
             $item = Item::findOrFail($item_id);
             
             // idの値で場所詳細を検索して取得
             $place_detail = $item->place_detail()->findOrFail($place_detail_id);
-            
-            // URLのplace_Idから、database上のroomIdを取得。これがURL上のidと一致しているかを確認し、その部屋が存在するかをチェックする
-            // 一致しなければ直接URLを打ち込んでいると考えられるため、404を返す。
             $room = $item->room()->findOrFail($id);
-            
-            // URLのplace_Idから、database上のroomIdを取得。これがURL上のidと一致しているかを確認し、その部屋が存在するかをチェックする
-            // 一致しなければ直接URLを打ち込んでいると考えられるため、404を返す。
             $place = $item->place()->findOrFail($place_id);
     
             return view('items.edit', [
@@ -162,15 +131,10 @@ class ItemController extends Controller
                 'place' => $place,
                 'place_detail' => $place_detail,
                 'item' => $item,
-                
             ]);
-            
-            
         }else{
             return redirect('/rooms/'.$id.'/'.$place_id.'/'.$place_detail_id);
         }
-        
-        
     }
     public function update(Request $request, $id, $place_id, $place_detail_id, $item_id)
     {
@@ -180,7 +144,6 @@ class ItemController extends Controller
             'remaining_amount' => 'required|integer|min:0',
             'alert_amount' => 'required|integer|min:0',
         ]);
-        
         
         if(Auth::user()->admin === 0){
             $item = Item::where('room_id', $id)->where('place_id', $place_id)->where('place_detail_id', $place_detail_id)->findOrFail($item_id);
@@ -221,15 +184,7 @@ class ItemController extends Controller
     // 物品消費画面を更新する関数
     public function spending($id, $place_id, $place_detail_id, $item_id)
     {
-       
-        
-        
-        // $room = Room::findOrFail($id);
-        // $place = Place::findOrFail($place_id);
-        
-        // $place_detail = PlaceDetail::findOrFail($place_detail_id);
-        
-        
+
         $item = Item::findOrFail($item_id);
         
         // idの値で場所詳細を検索して取得
@@ -250,9 +205,6 @@ class ItemController extends Controller
             'item' => $item,
             
         ]);
-            
-            
-   
         
     }
     
@@ -275,40 +227,20 @@ class ItemController extends Controller
             $item->alert_amount = $item->alert_amount; // 警告する残量
             // 作成したユーザーidを登録
             $item->user_id = $item->user_id;
-            
-            
             $item->status = $item->status;
             
-            // // 管理ユーザーかどうかで、statusを振り分ける
-            // // 0が未承認、1が承認、2が拒否、3は発注済み
-            // if(Auth::user()->admin == 0){
-            //     // 管理ユーザーの場合
-            //     $item->status = 1;
-            // }else{
-            //     // 一般ユーザーの場合
-            //     $item->status = 0;
-            // }
-            
-            
-            
-            // $item->save();
-            
-            
+
             // -----------------------------------
             // 以下、履歴テーブルに書き込む処理
             // -----------------------------------
             
-            
             // ログインユーザーを定義
             $user = Auth::user();
-            
             // 物品の増減を計算する
             $amount = $request->remaining_amount - $before_amount;
             
             // // 物品の増減を記録
             // $user->item_history()->attach($item->id, ['amount' => $amount]);
-            
-            
             
             // トランザクション処理
             

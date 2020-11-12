@@ -7,9 +7,7 @@ use Illuminate\Http\Request;
 use App\Room;
 use App\Place;
 use App\PlaceDetail;
-
 use Auth; // ログインユーザー
-
 use App\User; // ユーザー
 
 class PlacesController extends Controller

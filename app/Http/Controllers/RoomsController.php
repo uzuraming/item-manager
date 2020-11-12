@@ -3,13 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Room; // 追加
-
 use App\Place; // 追加
-
 use Auth; // ログインユーザー
-
 use App\User; // ユーザー
 
 class RoomsController extends Controller

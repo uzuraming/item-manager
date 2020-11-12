@@ -17,8 +17,6 @@ class ItemRequestController extends Controller
         $not_permission_items = item::where('status', 0)->orWhere('status', 2)->paginate(5);
         $not_permission_items_number = count($not_permission_items);
         
-        
-        
         // リクエスト一覧ビューでそれを表示
         return view('item_requests.index', [
             'not_permission_items' => $not_permission_items,
@@ -38,8 +36,6 @@ class ItemRequestController extends Controller
                 'not_permission_item' => $not_permission_item,
                 'user' => $user
             ]);
-            
-            
         }else{
             
             return \App::abort(404);
@@ -53,7 +49,6 @@ class ItemRequestController extends Controller
             return back();
         }else{
             $not_permission_item = Item::findOrFail($item_id);
-        
             $not_permission_item->item_name = $not_permission_item->item_name;
             $not_permission_item->remaining_amount = $not_permission_item->remaining_amount; // 残量
             $not_permission_item->alert_amount = $not_permission_item->alert_amount; // 警告する残量

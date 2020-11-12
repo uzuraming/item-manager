@@ -4,15 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Room; // 追加
-
 use App\Place; // 追加
-
 use App\PlaceDetail; // 追加
-
 use App\Item; // 追加
-
 use Auth; // ログインユーザー
-
 use App\User; // ユーザー
 
 class PlaceDetailsController extends Controller
@@ -31,22 +26,13 @@ class PlaceDetailsController extends Controller
         // 一致しなければ直接URLを打ち込んでいると考えられるため、404を返す。
         $place = $place_detail->place()->findOrFail($place_id);
         
-        // // idの値で部屋を検索して取得
-        // $room = Room::findOrFail($id);
-        // // idの値で場所を検索して取得
-        // $place = Place::findOrFail($place_id);
-        
-        
         // 管理者ユーザーの場合、未承認も表示する
         if(Auth::user()->admin == 0){
             $items = $place_detail->item_from_place_detail()->where('room_id', $id)->where('place_id', $place_id)->orderBy('created_at', 'desc')->paginate(10);
         }else{
             $items = $place_detail->item_from_place_detail()->where('room_id', $id)->where('place_id', $place_id)->whereNotIn('status', [0, 2])->orderBy('created_at', 'desc')->paginate(10);
         }
-        
-    
-        
-        
+
 
         // 部屋詳細ビューでそれを表示
         return view('place_details.show', [
@@ -77,8 +63,6 @@ class PlaceDetailsController extends Controller
         }else{
             return redirect('/rooms/'.$id.'/'.$place_id);
         }
-        
-        
         
     }
     
@@ -168,4 +152,10 @@ class PlaceDetailsController extends Controller
         
         return redirect('/rooms/'.$id.'/'.$place_id);
     }
+    
+    function isAdmin()
+    {
+        return (Auth::user()->admin === 0);
+    }
+    
 }

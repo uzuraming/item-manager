@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\User; // Userを名前空間として利用
-
 use Auth; // ログインユーザー
-
 use App\Item;
 
 
@@ -32,14 +29,7 @@ class UsersController extends Controller
         
         $items = Item::all();
         // // idの値で場所詳細を検索して取得
-        // $place_detail = $item->place_detail()->findOrFail($place_detail_id);
 
-        // $room = $place_detail->room()->findOrFail($id);
-        
-        // $place = $place_detail->place()->findOrFail($place_id);
-
-        // $users = User::all();
-        
         // 使用履歴を中間テーブルから取得
         $histories = $user->item_history()->orderBy('created_at', 'desc')->paginate(5);
         
@@ -55,8 +45,6 @@ class UsersController extends Controller
     
     // user削除機能
     public function destroy($id){
-        
-        
         // 管理者ユーザーか判別
         if(Auth::user()->admin === 0){
             $user = User::findOrFail($id);
