@@ -33,7 +33,7 @@ class RoomsController extends Controller
      */
     public function create()
     {
-        if(Auth::user()->admin == 0){
+        if(Auth::user()->admin == config('const.ADMIN')){
             $room = new Room;
 
             // 部屋作成ビューを表示
@@ -61,7 +61,7 @@ class RoomsController extends Controller
             'room_name' => 'required|max:255',
         ]);
         
-        if(Auth::user()->admin == 0){
+        if(Auth::user()->admin == config('const.ADMIN')){
             // 部屋を作成
             $room = new Room;
             $room->room_name = $request->room_name;
@@ -100,7 +100,7 @@ class RoomsController extends Controller
      */
     public function edit($id)
     {
-        if(Auth::user()->admin === 0){
+        if(Auth::user()->admin === config('const.ADMIN')){
             // idの値で部屋を検索して取得
             $room = Room::findOrFail($id);
     
@@ -133,7 +133,7 @@ class RoomsController extends Controller
         ]);
         
         
-        if(Auth::user()->admin === 0){
+        if(Auth::user()->admin === config('const.ADMIN')){
             // idの値で部屋を検索して取得
             $room = Room::findOrFail($id);
             // メッセージを更新
@@ -155,7 +155,7 @@ class RoomsController extends Controller
      */
     public function destroy($id)
     {
-        if(Auth::user()->admin === 0){
+        if(Auth::user()->admin === config('const.ADMIN')){
             // idの値で部屋を検索して取得
             $room = Room::findOrFail($id);
             // 部屋を削除

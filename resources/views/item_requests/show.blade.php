@@ -26,9 +26,9 @@
                             <td>{{ $not_permission_item->alert_amount }}</td>
                             <td>{!! link_to_route('users.show', App\User::find($not_permission_item->user_id)->name, ['user' => App\User::find($not_permission_item->user_id)->id]) !!}</td>
                             <th>
-                                @if($not_permission_item->status == 0)
+                                @if($not_permission_item->status == config('const.NOT_PERMISSION'))
                                     <p class="text-secondary">未承認</p>
-                                @elseif($not_permission_item->status ==2)
+                                @elseif($not_permission_item->status ==config('const.REFUSED'))
                                     <p class="text-danger">拒否</p>
                                 @endif
                             </th>
@@ -39,7 +39,7 @@
             </div>
             
             <div class="d-flex justify-content-center">
-            @if(Auth::user()->admin == 0)
+            @if(Auth::user()->admin == config('const.ADMIN'))
              {!! Form::model([$not_permission_item], ['route' => ['item_requests.permission', ['item_id' => $not_permission_item->id]], 'method' => 'put']) !!}
                 
                 <div class="form-group">

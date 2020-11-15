@@ -17,11 +17,7 @@ class PlacesController extends Controller
         
         // idの値で部屋を検索して取得
         $place = Place::findOrFail($place_id);
-        
-        // URLのplace_Idから、database上のroomIdを取得。これがURL上のidと一致しているかを確認し、その部屋が存在するかをチェックする
-        // 一致しなければ直接URLを打ち込んでいると考えられるため、404を返す。
         $room = $place->room()->findOrFail($id);
-        
         
         // 全場所詳細を取得
         $place_details = $place->place_details_from_place()->where('room_id', $id)->orderBy('created_at', 'desc')->paginate(10);
@@ -38,7 +34,7 @@ class PlacesController extends Controller
     public function create($id)
     {   
         
-        if(Auth::user()->admin === 0){
+        if(Auth::user()->admin === config('const.ADMIN')){
             $room = Room::findOrFail($id);
             $place = new Place;
     
@@ -64,7 +60,7 @@ class PlacesController extends Controller
             'place_name' => 'required|max:255',
         ]);
         
-        if(Auth::user()->admin === 0){
+        if(Auth::user()->admin === config('const.ADMIN')){
             $room = Room::findOrFail($id);
             $room->places()->create(['place_name' => $request->place_name]);
         }
@@ -73,10 +69,8 @@ class PlacesController extends Controller
 
     public function edit($id, $place_id)
     {
-        if(Auth::user()->admin === 0){
+        if(Auth::user()->admin === config('const.ADMIN')){
             $place = Place::findOrFail($place_id);
-            // URLのplace_Idから、database上のroomIdを取得。これがURL上のidと一致しているかを確認し、その部屋が存在するかをチェックする
-            // 一致しなければ直接URLを打ち込んでいると考えられるため、404を返す。
             $room = $place->room()->findOrFail($id);
     
             return view('places.edit', [
@@ -97,7 +91,7 @@ class PlacesController extends Controller
             'place_name' => 'required|max:255',
         ]);
         
-        if(Auth::user()->admin === 0){
+        if(Auth::user()->admin === config('const.ADMIN')){
             $place = Place::where('room_id', $id)->findOrFail($place_id);
             $place->place_name = $request->place_name;
             $place->save();
@@ -109,7 +103,7 @@ class PlacesController extends Controller
 
     public function destroy($id, $place_id)
     {
-        if(Auth::user()->admin === 0){
+        if(Auth::user()->admin === config('const.ADMIN')){
             $place = Place::where('room_id', $id)->findOrFail($place_id);
             $place->delete();
         }

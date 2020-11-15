@@ -86,10 +86,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('item_request/{item_id}', 'ItemRequestController@show')->name('item_requests.show');
     
     // 物品検索画面
-    Route::get('/serch', function () {
-        return view('serch.serch');
-    })->name('serch.serch');
-    Route::get('serch.results', 'SerchController@results')->name('serch.results');
+    Route::get('/search', function () {
+        return view('search.search');
+    })->name('search.search');
+    Route::get('search.results', 'SearchController@results')->name('search.results');
 
     
     

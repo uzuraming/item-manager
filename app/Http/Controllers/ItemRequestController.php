@@ -45,7 +45,7 @@ class ItemRequestController extends Controller
     public function permission(Request $request, $item_id){
         
         // 管理者ユーザーでなければリダイレクト
-        if(Auth::user()->admin != 0){
+        if(Auth::user()->admin != config('const.ADMIN')){
             return back();
         }else{
             $not_permission_item = Item::findOrFail($item_id);

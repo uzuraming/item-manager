@@ -29,13 +29,13 @@
                                 <td>{{ $serch_item->remaining_amount }}</td>
                                 <td>
                                     {{-- 0が未承認、1が承認、2が拒否、3は発注済み --}}
-                                    @if ($serch_item->status === 0)
+                                    @if ($serch_item->status === config('const.NOT_PERMISSION'))
                                         未承認
-                                    @elseif ($serch_item->status === 1)
+                                    @elseif ($serch_item->status === config('const.PERMISSION'))
                                         承認
-                                    @elseif ($serch_item->status === 2)
+                                    @elseif ($serch_item->status === config('const.REFUSED'))
                                         拒否
-                                    @elseif ($serch_item->status === 3)
+                                    @elseif ($serch_item->status === config('const.ORDERD'))
                                         発注済み
                                     @else
                                         その他

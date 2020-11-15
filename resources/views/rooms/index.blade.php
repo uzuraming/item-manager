@@ -25,7 +25,7 @@
                           </nav>
     @endif
 
-                            @if(Auth::user()->admin === 0)
+                            @if(Auth::user()->admin === config('const.ADMIN'))
                             <div class="d-flex justify-content-end">
                                 {!! link_to_route('rooms.create', '部屋の新規作成', [], ['class' => 'rounded-0 btn btn-success mr-2 px-4']) !!}
                             </div>

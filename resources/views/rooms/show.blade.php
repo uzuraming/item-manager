@@ -27,7 +27,7 @@
                     @endif
                     
                     
-                            @if(Auth::user()->admin === 0)
+                            @if(Auth::user()->admin === config('const.ADMIN'))
                             <div class="d-flex justify-content-end">
                                 {!! link_to_route('rooms.edit', '編集', ['room' => $room->id], ['class' => 'rounded-0 btn btn-secondary mr-2 px-sm-4 px-2']) !!}
         

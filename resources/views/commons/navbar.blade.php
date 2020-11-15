@@ -18,7 +18,7 @@
                                 {{-- ユーザ詳細ページへのリンク --}}
                                 <li class="dropdown-item"> {!! link_to_route('users.index', 'ユーザー一覧', [],   ['class' => '']) !!}</li>
                                 <li class="dropdown-divider"></li>
-                                @if(Auth::user()->admin == 0)
+                                @if(Auth::user()->admin == config('const.ADMIN'))
                                     {{-- ユーザ登録ページへのリンク --}}
                                     <li class="dropdown-item">{!! link_to_route('signup.get', 'ユーザー登録', [], ['class' => '']) !!}</li>
                                 @endif
@@ -38,7 +38,7 @@
                                 {{-- ユーザ詳細ページへのリンク --}}
                                 <li class="dropdown-item">{!! link_to_route('rooms.index', '部屋一覧', [],   ['class' => '']) !!}</li>
                                 <li class="dropdown-divider"></li>
-                                <li class="dropdown-item">{!! link_to_route('serch.serch', '検索', [],   ['class' => '']) !!}</li>
+                                <li class="dropdown-item">{!! link_to_route('search.search', '検索', [],   ['class' => '']) !!}</li>
                                 <li class="dropdown-divider"></li>
                                 <li class="dropdown-item">
                                     <a class="" href="{{ route('alerts.index', []) }}"> 残量僅かな物品</span></a>
@@ -72,7 +72,7 @@
                 @else
                     
                     {{-- ログインページへのリンク --}}
-                    <li class="nav-item">{!! link_to_route('login', 'Login', [], ['class' => 'nav-link']) !!}</li>
+                    <li class="nav-item">{!! link_to_route('login', 'ログイン', [], ['class' => 'nav-link']) !!}</li>
                 @endif
             </ul>
         </div>

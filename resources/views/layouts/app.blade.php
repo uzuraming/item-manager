@@ -15,7 +15,7 @@
         </style>
         
          @if(Auth::check())
-        @if(Auth::user()->admin == 0)
+        @if(Auth::user()->admin == config('const.ADMIN'))
         <style type="text/css"> 
             body{
                 font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI", "Helvetica Neue", HelveticaNeue, YuGothic, "Yu Gothic Medium", "Yu Gothic", Verdana, Meiryo, sans-serif;

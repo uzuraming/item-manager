@@ -19,27 +19,14 @@ class ItemController extends Controller
     {
         // idの値で部屋を検索して取得
         $item = Item::findOrFail($item_id);
-        
-        // idの値で場所詳細を検索して取得
         $place_detail = $item->place_detail()->findOrFail($place_detail_id);
-        
-        // URLのplace_Idから、database上のroomIdを取得。これがURL上のidと一致しているかを確認し、その部屋が存在するかをチェックする
-        // 一致しなければ直接URLを打ち込んでいると考えられるため、404を返す。
         $room = $place_detail->room()->findOrFail($id);
-        
-        // URLのplace_Idから、database上のroomIdを取得。これがURL上のidと一致しているかを確認し、その部屋が存在するかをチェックする
-        // 一致しなければ直接URLを打ち込んでいると考えられるため、404を返す。
         $place = $place_detail->place()->findOrFail($place_id);
-        
-        // // idの値で部屋を検索して取得
-        // $room = Room::findOrFail($id);
-        // // idの値で場所を検索して取得
-        // $place = Place::findOrFail($place_id);
         
         $user = User::find($item->user_id);
         
         // 承認されていない（$item->statusが1ではない）かつ、管理者ユーザーでなければもとのURLに戻す。
-        if($item->status != 1 && $item->status != 3 && Auth::user()->admin != 0){
+        if($item->status != config('const.NOT_PERMISSION') && $item->status != config('const.ORDERD') && Auth::user()->admin != config('const.ADMIN')){
             return redirect('/rooms/'.$id.'/'.$place_id.'/'.$place_detail_id);
         }else{
              // 部屋詳細ビューでそれを表示
@@ -99,13 +86,12 @@ class ItemController extends Controller
         
         
         // 管理ユーザーかどうかで、statusを振り分ける
-        // 0が未承認、1が承認、2が拒否、3は発注済み
-        if(Auth::user()->admin == 0){
+        if(Auth::user()->admin == config('const.ADMIN')){
             // 管理ユーザーの場合
-            $item->status = 1;
+            $item->status = config('const.PERMISSION');
         }else{
             // 一般ユーザーの場合
-            $item->status = 0;
+            $item->status = config('const.NOT_PERMISSION');
         }
         
         $item->save();
@@ -117,7 +103,7 @@ class ItemController extends Controller
     {
         
         
-        if(Auth::user()->admin === 0){
+        if(Auth::user()->admin === config('const.ADMIN')){
    
             $item = Item::findOrFail($item_id);
             
@@ -145,7 +131,7 @@ class ItemController extends Controller
             'alert_amount' => 'required|integer|min:0',
         ]);
         
-        if(Auth::user()->admin === 0){
+        if(Auth::user()->admin === config('const.ADMIN')){
             $item = Item::where('room_id', $id)->where('place_id', $place_id)->where('place_detail_id', $place_detail_id)->findOrFail($item_id);
             $item->item_name = $request->item_name;
             $item->remaining_amount = $request->remaining_amount; // 残量
@@ -156,12 +142,12 @@ class ItemController extends Controller
             
             // 管理ユーザーかどうかで、statusを振り分ける
             // 0が未承認、1が承認、2が拒否、3は発注済み
-            if(Auth::user()->admin == 0){
+            if(Auth::user()->admin == config('const.ADMIN')){
                 // 管理ユーザーの場合
-                $item->status = 1;
+                $item->status = config('const.PERMISSION');
             }else{
                 // 一般ユーザーの場合
-                $item->status = 0;
+                $item->status = config('const.NOT_PERMISSION');
             }
             $item->save();
         }    
@@ -173,7 +159,7 @@ class ItemController extends Controller
 
     public function destroy($id, $place_id, $place_detail_id, $item_id)
     {
-        if(Auth::user()->admin === 0){
+        if(Auth::user()->admin === config('const.ADMIN')){
             $item = Item::where('room_id', $id)->where('place_id', $place_id)->where('place_detail_id', $place_detail_id)->findOrFail($item_id);
             $item->delete();
         }
@@ -189,13 +175,7 @@ class ItemController extends Controller
         
         // idの値で場所詳細を検索して取得
         $place_detail = $item->place_detail()->findOrFail($place_detail_id);
-        
-        // URLのplace_Idから、database上のroomIdを取得。これがURL上のidと一致しているかを確認し、その部屋が存在するかをチェックする
-        // 一致しなければ直接URLを打ち込んでいると考えられるため、404を返す。
         $room = $item->room()->findOrFail($id);
-        
-        // URLのplace_Idから、database上のroomIdを取得。これがURL上のidと一致しているかを確認し、その部屋が存在するかをチェックする
-        // 一致しなければ直接URLを打ち込んでいると考えられるため、404を返す。
         $place = $item->place()->findOrFail($place_id);
 
         return view('items.spending', [
@@ -220,9 +200,7 @@ class ItemController extends Controller
             
             $item = Item::where('room_id', $id)->where('place_id', $place_id)->where('place_detail_id', $place_detail_id)->findOrFail($item_id);
             $item->item_name = $item->item_name;
-            
             $before_amount = $item->remaining_amount; // 後の計算用に元あった数を取っておく
-        
             $item->remaining_amount = $request->remaining_amount; // 残量
             $item->alert_amount = $item->alert_amount; // 警告する残量
             // 作成したユーザーidを登録
@@ -238,10 +216,6 @@ class ItemController extends Controller
             $user = Auth::user();
             // 物品の増減を計算する
             $amount = $request->remaining_amount - $before_amount;
-            
-            // // 物品の増減を記録
-            // $user->item_history()->attach($item->id, ['amount' => $amount]);
-            
             // トランザクション処理
             
             $result = DB::transaction(function() use ($request, $id, $place_id, $place_detail_id, $item_id, $item, $user, $amount) {
@@ -297,7 +271,7 @@ class ItemController extends Controller
    
             $item = Item::where('room_id', $id)->where('place_id', $place_id)->where('place_detail_id', $place_detail_id)->findOrFail($item_id);
             
-            if($item->status == 0 || $item->status == 2){
+            if($item->status == config('const.NOT_PERMISSION') || $item->status == config('const.REFUSED')){
                 return \App::abort(404);
             }else{
                 $item->item_name = $item->item_name;
@@ -307,10 +281,10 @@ class ItemController extends Controller
                 $item->user_id = $item->user_id;
                 
                 // 発注済みの場合
-                if($item->status == 3){
-                    $item->status = 1;
+                if($item->status == config('const.ORDERD')){
+                    $item->status = config('const.PERMISSION');
                 }else{
-                    $item->status = 3;
+                    $item->status = config('const.ORDERD');
                 }
     
                 $item->save();

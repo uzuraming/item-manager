@@ -51,7 +51,7 @@
                         </div>  
                         <div class="d-flex justify-content-end">
                             
-                            @if(Auth::user()->admin === 0)
+                            @if(Auth::user()->admin === config('const.ADMIN'))
                                 {!! link_to_route('items.edit', '編集', ['id' => $room->id, 'place_id' => $place->id, 'place_detail_id' => $place_detail->id, 'item_id' => $item->id], ['class' => 'rounded-0 btn btn-secondary mr-2 px-4']) !!}
                                 {{-- 場所削除フォーム --}}
                             {!! Form::model([$item], ['route' => ['items.destroy', ['id' => $room->id, 'place_id' => $place->id, 'place_detail_id' => $place_detail->id, 'item_id' => $item->id]], 'method' => 'delete']) !!}

@@ -18,7 +18,7 @@
             
 
          
-                    {!! Form::open(['route' => 'serch.results', null,  'method' => 'get']) !!}
+                    {!! Form::open(['route' => 'search.results', null,  'method' => 'get']) !!}
 
                         <div class="form-group">
                             {!! Form::label('word', '名前:') !!}

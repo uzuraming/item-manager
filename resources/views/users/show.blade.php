@@ -36,7 +36,7 @@
                                 </tbody>
                               </table>
                           
-                    @if(Auth::user()->admin === 0)
+                    @if(Auth::user()->admin === config('const.ADMIN'))
                     
                     <div class="d-flex justify-content-end">
                         {{-- 削除ボタンの実装 --}}

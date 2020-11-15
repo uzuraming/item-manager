@@ -27,7 +27,7 @@
 
                            
                             <div class="d-flex justify-content-end">
-                                 @if(Auth::user()->admin === 0)
+                                 @if(Auth::user()->admin === config('const.ADMIN'))
                                 {!! link_to_route('place_details.edit', '編集', ['id' => $room->id, 'place_id' => $place->id, 'place_detail_id' => $place_detail->id],['class' => 'rounded-0 btn btn-secondary mr-2 px-sm-4 px-2']) !!}
         
                                 {{-- 場所削除フォーム --}}
