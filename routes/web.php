@@ -46,7 +46,7 @@ Route::group(['middleware' => ['auth']], function () {
     // placeのルーティング
     Route::delete('rooms/{id}/{place_id}', 'PlacesController@destroy')->name('places.destroy');
     Route::get('rooms/{id}/create', 'PlacesController@create')->name('places.create');
-    Route::post('rooms/{id}/store', 'PlacesController@store')->name('places.store');
+    Route::post('rooms/{id}/', 'PlacesController@store')->name('places.store');
     Route::get('rooms/{id}/{place_id}/edit', 'PlacesController@edit')->name('places.edit');
     Route::put('rooms/{id}/{place_id}', 'PlacesController@update')->name('places.update');
     Route::get('rooms/{id}/{place_id}', 'PlacesController@show')->name('places.show');

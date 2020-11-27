@@ -48,8 +48,6 @@ class PlacesController extends Controller
         }
         
         
-        
-        
     }
 
     public function store(Request $request, $id)

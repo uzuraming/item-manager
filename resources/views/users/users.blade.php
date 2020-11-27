@@ -23,7 +23,10 @@
 
     
                       </div>
+                      {{ $users->links() }}
+                      
                 </div>
+                
                    @if(Auth::user()->admin === config('const.ADMIN'))
                     <div class="d-flex justify-content-end">
                 
@@ -33,6 +36,7 @@
                     </div>
                     @endif
             </div>
+            
           </div>
         
 

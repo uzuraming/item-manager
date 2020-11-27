@@ -26,8 +26,8 @@ class ItemController extends Controller
         $user = User::find($item->user_id);
         
         // 承認されていない（$item->statusが1ではない）かつ、管理者ユーザーでなければもとのURLに戻す。
-        if($item->status != config('const.NOT_PERMISSION') && $item->status != config('const.ORDERD') && Auth::user()->admin != config('const.ADMIN')){
-            return redirect('/rooms/'.$id.'/'.$place_id.'/'.$place_detail_id);
+        if($item->status == config('const.NOT_PERMISSION') && $item->status == config('const.ORDERD') && Auth::user()->admin != config('const.ADMIN')){
+            return back();
         }else{
              // 部屋詳細ビューでそれを表示
         return view('items.show', [

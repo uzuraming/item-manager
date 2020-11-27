@@ -14,7 +14,7 @@ class ItemRequestController extends Controller
 {
     public function index(){
         // 未承認の物品を取得
-        $not_permission_items = item::where('status', 0)->orWhere('status', 2)->paginate(5);
+        $not_permission_items = item::where('status', config('const.NOT_PERMISSION'))->orWhere('status', config('const.REFUSED'))->paginate(5);
         $not_permission_items_number = count($not_permission_items);
         
         // リクエスト一覧ビューでそれを表示
@@ -30,7 +30,7 @@ class ItemRequestController extends Controller
         $user = User::findOrFail($not_permission_item->user_id);
         
         // 承認されているIdを打ち込まれた場合は404を返す
-        if($not_permission_item->status == 0 || $not_permission_item->status == 2){
+        if($not_permission_item->status == config('const.NOT_PERMISSION') || $not_permission_item->status == config('const.REFUSED')){
             // リクエスト一覧ビューでそれを表示
             return view('item_requests.show', [
                 'not_permission_item' => $not_permission_item,
