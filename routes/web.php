@@ -86,9 +86,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('item_request/{item_id}', 'ItemRequestController@show')->name('item_requests.show');
     
     // 物品検索画面
-    Route::get('/search', function () {
-        return view('search.search');
-    })->name('search.search');
+    // Route::get('/search', function () {
+    //     return view('search.search');
+    // })->name('search.search');
     Route::get('search.results', 'SearchController@results')->name('search.results');
 
     

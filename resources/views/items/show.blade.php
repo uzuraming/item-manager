@@ -5,8 +5,13 @@
 
     
         <div class="mt-5 p-3 d-flex justify-content-center">
-        <div class="card rounded-0 shadow-sm border-0" style="width: 72rem;">
+        <div class="card rounded-0 shadow-sm border-0 position-relative" style="width: 72rem;">
+
+            <a href="#" class="position-absolute " style="top:2rem; right:2rem; font-size:2rem;">
+                ☆
+            </a>
             <div class="card-body border-0">
+
                 <h2 class="text-center">{{ $item->item_name }}</h2>
                 <div class="mt-5">
                     <div class="list-group">
@@ -74,16 +79,16 @@
                             @else
                                 {{-- 発注にするボタン --}}
                                 {!! Form::model($item, ['route' => ['items.order_update', ['id' => $room->id, 'place_id' => $place->id, 'place_detail_id' => $place_detail->id, 'item_id' => $item->id]],'method' => 'put']) !!}
-                                    {!! Form::submit('発注解除', ['class' => 'rounded-0 btn btn-light mr-2 px-4']) !!}
+                                    {!! Form::submit('発注解除', ['class' => 'rounded-0 btn btn-light mr-2 px-2 px-sm-4']) !!}
                                 {!! Form::close() !!}
                                 
                                 
                             @endif
                           
                             
-                            {!! link_to_route('items.spending', '数の変更', ['id' => $room->id, 'place_id' => $place->id, 'place_detail_id' => $place_detail->id, 'item_id' => $item->id], ['class' => 'rounded-0 btn btn-primary mr-2 px-4']) !!}
+                            {!! link_to_route('items.spending', '数の変更', ['id' => $room->id, 'place_id' => $place->id, 'place_detail_id' => $place_detail->id, 'item_id' => $item->id], ['class' => 'rounded-0 btn btn-primary mr-2 px-2 px-sm-4']) !!}
                             
-                             {!! link_to_route('items.user_history', '使用履歴', ['id' => $room->id, 'place_id' => $place->id, 'place_detail_id' => $place_detail->id, 'item_id' => $item->id], ['class' => 'rounded-0 btn btn-success mr-2 px-4']) !!}
+                             {!! link_to_route('items.user_history', '使用履歴', ['id' => $room->id, 'place_id' => $place->id, 'place_detail_id' => $place_detail->id, 'item_id' => $item->id], ['class' => 'rounded-0 btn btn-success mr-2 px-2 px-sm-4']) !!}
 
                             
                         </div>

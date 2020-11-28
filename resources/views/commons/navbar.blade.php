@@ -38,7 +38,6 @@
                                 {{-- ユーザ詳細ページへのリンク --}}
                                 <li class="dropdown-item">{!! link_to_route('rooms.index', '部屋一覧', [],   ['class' => '']) !!}</li>
                                 <li class="dropdown-divider"></li>
-                                <li class="dropdown-item">{!! link_to_route('search.search', '検索', [],   ['class' => '']) !!}</li>
                                 <li class="dropdown-divider"></li>
                                 <li class="dropdown-item">
                                     <a class="" href="{{ route('alerts.index', []) }}"> 残量僅かな物品</span></a>
@@ -68,6 +67,17 @@
                             </ul>
                         
                     </li>
+
+                    {!! Form::open(['route' => 'search.results', null,  'method' => 'get']) !!}
+
+                        <div class="form-group form-inline">
+                            {!! Form::text('word', null, ['class' => 'form-control mr-sm-2']) !!}
+                            
+                            
+                            {!! Form::submit('検索', ['class' => 'btn btn-outline-success my-2 my-sm-0', ]) !!}
+                            
+                        </div>
+                    {!! Form::close() !!}
                     
                 @else
                     

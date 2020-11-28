@@ -10,7 +10,7 @@
                 <h2 class="text-center">メニュー</h2>
                 <div class="mt-3 mt-sm-5">
                     {!! link_to_route('rooms.index', '部屋一覧', [],   ['class' => 'btn btn-secondary btn-block p-sm-3 py-2 mb-3 rounded-0']) !!}
-                    {!! link_to_route('search.search', '検索', [],   ['class' => 'btn btn-success btn-block py-2 p-sm-3 mb-2 rounded-0']) !!}
+ 
         
                     <a class="btn btn-danger btn-block py-2 p-sm-3 mb-3 rounded-0" href="{{ route('alerts.index', []) }}"> 残量僅かな物品<span class="badge badge-light">{{ $alert_number }}</span></a>
                     
