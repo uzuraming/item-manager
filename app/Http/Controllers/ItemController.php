@@ -295,5 +295,36 @@ class ItemController extends Controller
             
             
     }
+
+    public function favorite(Request $request, $id, $place_id, $place_detail_id, $item_id)
+    {
+   
+            $item = Item::where('room_id', $id)->where('place_id', $place_id)->where('place_detail_id', $place_detail_id)->findOrFail($item_id);
+            
+            if($item->status == config('const.NOT_PERMISSION') || $item->status == config('const.REFUSED')){
+                return \App::abort(404);
+            }else{
+                $item->item_name = $item->item_name;
+                $item->remaining_amount = $item->remaining_amount; // 残量
+                $item->alert_amount = $item->alert_amount; // 警告する残量
+                // 作成したユーザーidを登録
+                $item->user_id = $item->user_id;
+                
+                // 発注済みの場合
+                if($item->favorited == false){
+                    $item->favorited = true;
+                }else{
+                    $item->favorited = false;
+                }
+    
+                $item->save();
+                
+            
+                return back();
+            }
+            
+            
+    }
+
     
 }

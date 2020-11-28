@@ -38,6 +38,7 @@
                                 {{-- ユーザ詳細ページへのリンク --}}
                                 <li class="dropdown-item">{!! link_to_route('rooms.index', '部屋一覧', [],   ['class' => '']) !!}</li>
                                 <li class="dropdown-divider"></li>
+                                <li class="dropdown-item">{!! link_to_route('favorites.index', 'ブックマーク', [],   ['class' => '']) !!}</li>
                                 <li class="dropdown-divider"></li>
                                 <li class="dropdown-item">
                                     <a class="" href="{{ route('alerts.index', []) }}"> 残量僅かな物品</span></a>

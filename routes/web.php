@@ -71,7 +71,7 @@ Route::group(['middleware' => ['auth']], function () {
     
     Route::put('rooms/{id}/{place_id}/{place_detail_id}/{item_id}/order_update', 'ItemController@order_update')->name('items.order_update');
     
-    
+    Route::put('rooms/{id}/{place_id}/{place_detail_id}/{item_id}/favorite', 'ItemController@favorite')->name('items.favorite');
     
     // 使用する画面
     Route::get('rooms/{id}/{place_id}/{place_detail_id}/{item_id}/spending', 'ItemController@spending')->name('items.spending');
@@ -91,7 +91,8 @@ Route::group(['middleware' => ['auth']], function () {
     // })->name('search.search');
     Route::get('search.results', 'SearchController@results')->name('search.results');
 
-    
+
+    Route::get('favorites', 'FavoritesController@index')->name('favorites.index');
     
 });
 

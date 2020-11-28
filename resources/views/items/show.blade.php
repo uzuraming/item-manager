@@ -7,9 +7,18 @@
         <div class="mt-5 p-3 d-flex justify-content-center">
         <div class="card rounded-0 shadow-sm border-0 position-relative" style="width: 72rem;">
 
-            <a href="#" class="position-absolute " style="top:2rem; right:2rem; font-size:2rem;">
-                ☆
-            </a>
+        
+            @if($item->favorited == false)
+
+                
+            {!! Form::model($item, ['route' => ['items.favorite', ['id' => $room->id, 'place_id' => $place->id, 'place_detail_id' => $place_detail->id, 'item_id' => $item->id]],'method' => 'put']) !!}
+                     {!! Form::submit('☆', ['class' => 'position-absolute btn btn-link', 'style' => 'top:2rem; right:2rem; font-size:2rem;']) !!}
+                {!! Form::close() !!}
+            @else
+            {!! Form::model($item, ['route' => ['items.favorite', ['id' => $room->id, 'place_id' => $place->id, 'place_detail_id' => $place_detail->id, 'item_id' => $item->id]],'method' => 'put']) !!}
+                     {!! Form::submit('★', ['class' => 'position-absolute btn btn-link', 'style' => 'top:2rem; right:2rem; font-size:2rem;']) !!}
+                {!! Form::close() !!}
+            @endif
             <div class="card-body border-0">
 
                 <h2 class="text-center">{{ $item->item_name }}</h2>
